@@ -1,5 +1,5 @@
 {
-    "name": "Mongoose Grouper",
+    "name": "mongoose-grouper",
     "version": "0.0.1",
     "description": "A Thematic plug-in that allows for the grouping of themes",
     "main": "",
