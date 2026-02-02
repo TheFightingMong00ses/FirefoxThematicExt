@@ -1,0 +1,26 @@
+{
+    "name": "Mongoose Grouper",
+    "version": "0.0.1",
+    "description": "A Thematic plug-in that allows for the grouping of themes",
+    "main": "",
+    "dependencies": {
+        "Thematic": "1.0.0"
+    },
+    "devDependencies": {
+        
+    },
+    "scripts": {
+
+    },
+    "repository": {
+
+    },
+    "author": {
+        "name": ""
+    },
+    "license": "ISC",
+    "bugs": {
+
+    },
+    "homepage": ""
+}
