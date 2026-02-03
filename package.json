@@ -4,7 +4,7 @@
     "description": "A Thematic plug-in that allows for the grouping of themes",
     "main": "",
     "dependencies": {
-        "Thematic": "1.0.0"
+        
     },
     "devDependencies": {
         
