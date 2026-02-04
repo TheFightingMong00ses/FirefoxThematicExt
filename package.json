@@ -4,7 +4,9 @@
     "description": "A Thematic plug-in that allows for the grouping of themes",
     "main": "",
     "devDependencies": {
-        "jsdoc": "^4.0.5"
+        "chai": "^6.2.2",
+        "jsdoc": "^4.0.5",
+        "mocha": "^11.7.5"
     },
     "scripts": {},
     "repository": {},
