@@ -3,24 +3,19 @@
     "version": "0.0.1",
     "description": "A Thematic plug-in that allows for the grouping of themes",
     "main": "",
-    "dependencies": {
-        
-    },
     "devDependencies": {
-        
+        "@eslint/js": "^9.39.2",
+        "eslint": "^9.39.2",
+        "globals": "^17.3.0"
     },
     "scripts": {
-
+        "lint": "eslint ."
     },
-    "repository": {
-
-    },
+    "repository": {},
     "author": {
         "name": ""
     },
     "license": "ISC",
-    "bugs": {
-
-    },
+    "bugs": {},
     "homepage": ""
 }
