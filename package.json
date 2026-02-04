@@ -4,9 +4,14 @@
     "description": "A Thematic plug-in that allows for the grouping of themes",
     "main": "",
     "devDependencies": {
+        "@eslint/js": "^9.39.2",
+        "eslint": "^9.39.2",
+        "globals": "^17.3.0",
         "jsdoc": "^4.0.5"
     },
-    "scripts": {},
+    "scripts": {
+        "lint": "eslint ."
+    },
     "repository": {},
     "author": {
         "name": ""
