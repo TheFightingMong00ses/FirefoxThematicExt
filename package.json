@@ -3,24 +3,15 @@
     "version": "0.0.1",
     "description": "A Thematic plug-in that allows for the grouping of themes",
     "main": "",
-    "dependencies": {
-        
-    },
     "devDependencies": {
-        
+        "jsdoc": "^4.0.5"
     },
-    "scripts": {
-
-    },
-    "repository": {
-
-    },
+    "scripts": {},
+    "repository": {},
     "author": {
         "name": ""
     },
     "license": "ISC",
-    "bugs": {
-
-    },
+    "bugs": {},
     "homepage": ""
 }
