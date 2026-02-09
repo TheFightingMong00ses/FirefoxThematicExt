@@ -1,12 +1,22 @@
 {
   "manifest_version": 2,
-  "name": "",
+  "name": "Firefox Theme Manager",
   "version": "0.0.1",
-
-  "description": "",
+  "description": "Manage and switch Firefox themes easily",
 
   "icons": {
     "48": "icons/border-48.png"
+  },
+
+  "permissions": ["storage", "management", "theme"],
+
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": "icons/border-48.png"
+  },
+
+  "background": {
+    "scripts": ["mongoose.js"]
   },
 
   "content_scripts": [
