@@ -1,19 +1,44 @@
 {
-    "name": "mongoose-grouper",
-    "version": "0.0.1",
-    "description": "A Thematic plug-in that allows for the grouping of themes",
-    "main": "",
-    "devDependencies": {
-        "chai": "^6.2.2",
-        "jsdoc": "^4.0.5",
-        "mocha": "^11.7.5"
-    },
-    "scripts": {},
-    "repository": {},
-    "author": {
-        "name": ""
-    },
-    "license": "ISC",
-    "bugs": {},
-    "homepage": ""
+  "name": "mongoose-grouper",
+  "version": "0.0.1",
+  "description": "A Thematic plug-in that allows for the grouping of themes",
+  "main": "",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "chai": "^6.2.2",
+    "eslint": "^10.0.0",
+    "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
+    "jsdoc": "^4.0.5",
+    "lint-staged": "^16.2.7",
+    "mocha": "^11.7.5",
+    "prettier": "^3.8.1",
+    "web-ext": "^9.2.0"
+  },
+  "scripts": {
+    "test": "mocha",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "ext:lint": "web-ext lint . --source-dir .",
+    "ext:run": "web-ext run . --source-dir .",
+    "check": "npm run lint && npm run format:check && npm run ext:lint",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,mjs,cjs,json,md,yml,yaml}": [
+      "prettier --write"
+    ],
+    "*.{js,mjs,cjs}": [
+      "eslint --fix"
+    ]
+  },
+  "repository": {},
+  "author": {
+    "name": ""
+  },
+  "license": "ISC",
+  "bugs": {},
+  "homepage": ""
 }
