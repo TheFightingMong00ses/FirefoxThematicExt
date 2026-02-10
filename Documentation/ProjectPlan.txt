@@ -1,0 +1,191 @@
+1. Project Overview
+
+Project Description:
+This project involves the design, development, testing, and delivery of a Mozilla Firefox browser extension using the Scrumban framework. The team will follow Agile flow-based principles with an emphasis on incremental delivery, code quality, automated testing, and documentation.
+
+Team Size: 6
+Methodology: Scrumban (Agile, flow-based)
+Project Duration: 7-8 weeks
+
+Primary Technologies:
+JavaScript (ES6+)
+HTML / CSS
+Firefox WebExtensions API
+GitHub (version control, pull requests)
+ESLint (automated linting)
+Automated testing framework
+JSDoc (code documentation)
+
+2. Scrumban Framework Setup
+Board Columns
+Backlog
+Ready
+In Progress
+Code Review
+QA / Testing
+Done
+
+Work-In-Progress (WIP) Limits:
+
+In Progress: maximum 3 items
+Code Review: maximum 2 items
+QA / Testing: maximum 2 items
+
+3. Team Roles and Responsibilities
+
+Product Owner
+
+Defines feature requirements and priorities
+Maintains and refines the backlog
+Confirms acceptance criteria
+
+Scrum Master / Flow Manager
+
+Facilitates stand-ups and retrospectives
+Monitors WIP limits and flow efficiency
+Removes blockers
+
+Core Extension Team Developers
+
+Implements background scripts and messaging
+Manages permissions and WebExtension APIs
+UI/UX Developer
+Develops popup and options interfaces
+Ensures usability and accessibility
+Feature / Data Developer
+Implements core feature logic
+Manages storage, state, and edge cases
+QA and Documentation Lead
+Oversees automated testing
+Maintains README and documentation
+Coordinates final packaging and release checks
+
+4. Week-by-Week Project Plan
+
+Week 1 — Planning and Project Setup
+
+Objectives:
+Establish project scope and MVP definition
+Set up development and collaboration infrastructure
+Activities:
+Finalize extension concept and success criteria
+Assign team roles
+Create GitHub repository
+Configure Scrumban board and WIP limits
+Create initial extension structure
+Verify extension loads successfully in Firefox
+Project plan and backlog
+Repository initialized
+Base manifest.json and extension skeleton
+
+Week 2 — Engineering Foundation and Tooling
+
+Objectives:
+Establish code quality and automation standards
+Prepare the project for scalable development
+
+Activities:
+Integrate ESLint for automated linting
+Implement automated testing framework
+Add JSDoc configuration and documentation standards
+Establish pull request and code review workflow
+
+Deliverables:
+Automated linting active
+Automated tests running
+JSDoc integrated
+Continuous integration checks enforced
+
+Week 3 — Core Feature Development (Feature 1)
+
+Objectives:
+Deliver the first complete, end-to-end feature
+
+Activities:
+Implement core feature logic
+Connect UI, background scripts, and storage as needed
+Write automated tests for new functionality
+Ensure ESLint and JSDoc compliance
+
+Deliverables:
+Feature 1 fully functional
+Tests and linting passing
+Demo-ready feature
+
+Week 4 — Core Feature Development (Feature 2)
+
+Objectives:
+Complete MVP feature set
+
+Activities:
+Implement second core feature (lower complexity than Feature 1)
+Integrate with existing architecture
+Expand test coverage
+Address early technical debt
+
+Deliverables:
+Feature 2 completed
+MVP scope achieved
+Stable integrated build
+
+Week 5 — Stabilization and Quality Hardening
+
+Objectives:
+Improve reliability and maintainability
+
+Activities:
+Bug fixing and refactoring
+Improve test robustness
+Performance and error-handling improvements
+UI and usability polish
+
+Deliverables:
+Stable MVP
+All CI checks consistently passing
+Release-candidate quality build
+
+Week 6 — Enhancement or UX Improvement
+
+Objectives:
+Add limited value without increasing risk
+
+Activities: (choose one focus area)
+Implement a small enhancement (e.g., settings, shortcuts)
+OR
+Major UX improvement (onboarding, accessibility, clarity)
+
+Deliverables:
+One controlled enhancement
+No regressions introduced
+
+Week 7 — Documentation and Packaging
+
+Objectives:
+Prepare for final submission and demonstration
+
+Activities:
+Finalize README and usage instructions
+Generate JSDoc documentation
+Capture screenshots or demo media
+Package extension for submission
+
+Deliverables:
+Complete documentation
+Packaged extension build
+Final QA verification
+
+Week 8 — Presentation and Final Delivery
+
+Objectives:
+Deliver final product and reflect on process
+
+Activities:
+Prepare demo and presentation materials
+Summarize architecture and design decisions
+Conduct final retrospective
+Address last-minute critical fixes only
+
+Deliverables:
+Final extension release
+Presentation/demo delivered
+Project retrospective completed
