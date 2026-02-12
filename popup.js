@@ -10,9 +10,31 @@ document.addEventListener('DOMContentLoaded', function() {
   const randomThemeBtn = document.getElementById('random-theme');
   const settingsLink = document.getElementById('open-settings');
   const currentThemeDisplay = document.getElementById('current-theme');
+  const solidModeBtn = document.getElementById('solid-mode');
+  const gradientModeBtn = document.getElementById('gradient-mode');
+  
+  // Track current mode (default is solid)
+  let isGradientMode = false;
 
   // Load and display current theme on popup open
   loadCurrentTheme();
+  loadCurrentMode();
+
+  // Solid mode button click
+  solidModeBtn.addEventListener('click', function() {
+    isGradientMode = false;
+    solidModeBtn.classList.add('active');
+    gradientModeBtn.classList.remove('active');
+    saveMode('solid');
+  });
+
+  // Gradient mode button click
+  gradientModeBtn.addEventListener('click', function() {
+    isGradientMode = true;
+    gradientModeBtn.classList.add('active');
+    solidModeBtn.classList.remove('active');
+    saveMode('gradient');
+  });
 
   // Dark theme button click
   darkThemeBtn.addEventListener('click', function() {
@@ -26,16 +48,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Random theme button click with unlimited color possibilities
   randomThemeBtn.addEventListener('click', function() {
-    const randomColor = generateRandomColor();
-    const colorDescription = describeColor(randomColor);
-    applyTheme('random', colorDescription, randomColor);
+    if (isGradientMode) {
+      // Generate TWO random colors for gradient
+      const color1 = generateRandomColor();
+      const color2 = generateRandomColor();
+      const colorName1 = describeColor(color1);
+      const colorName2 = describeColor(color2);
+      applyTheme('random-gradient', `${colorName1} to ${colorName2}`, null, color1, color2);
+    } else {
+      // Generate ONE random color for solid
+      const randomColor = generateRandomColor();
+      const colorDescription = describeColor(randomColor);
+      applyTheme('random', colorDescription, randomColor);
+    }
   });
 
   // Settings link click
-  settingsLink.addEventListener('click', function(e) {
-    e.preventDefault();
-    browser.runtime.openOptionsPage();
-  });
+  if (settingsLink) {
+    settingsLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      browser.runtime.openOptionsPage();
+    });
+  }
 
   // Function to generate random RGB color
   function generateRandomColor() {
@@ -337,7 +371,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Function to apply a theme
-  function applyTheme(themeId, themeName, customColor) {
+  function applyTheme(themeId, themeName, customColor, gradientColor1, gradientColor2) {
     // Store the current theme
     browser.storage.local.set({ 
       currentTheme: themeId,
@@ -350,7 +384,9 @@ document.addEventListener('DOMContentLoaded', function() {
       browser.runtime.sendMessage({
         action: 'changeTheme',
         theme: themeId,
-        customColor: customColor
+        customColor: customColor,
+        gradientColor1: gradientColor1,
+        gradientColor2: gradientColor2
       });
       
       console.log('Theme changed to: ' + themeName);
@@ -369,6 +405,30 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }).catch((error) => {
       console.error('Error loading theme:', error);
+    });
+  }
+
+  // Function to save the current mode
+  function saveMode(mode) {
+    browser.storage.local.set({ colorMode: mode }).catch((error) => {
+      console.error('Error saving mode:', error);
+    });
+  }
+
+  // Function to load the current mode
+  function loadCurrentMode() {
+    browser.storage.local.get('colorMode').then((result) => {
+      if (result.colorMode === 'gradient') {
+        isGradientMode = true;
+        gradientModeBtn.classList.add('active');
+        solidModeBtn.classList.remove('active');
+      } else {
+        isGradientMode = false;
+        solidModeBtn.classList.add('active');
+        gradientModeBtn.classList.remove('active');
+      }
+    }).catch((error) => {
+      console.error('Error loading mode:', error);
     });
   }
 
