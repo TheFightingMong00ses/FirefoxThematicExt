@@ -60,30 +60,39 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
       const color1 = request.gradientColor1;
       const color2 = request.gradientColor2;
       
-      // Create a gradient image using canvas
-      createGradientImage(color1, color2).then((dataUrl) => {
-        browser.theme.update({
-          images: {
-            theme_frame: dataUrl
-          },
-          colors: {
-            frame: color1, // Fallback color
-            tab_background_text: "#ffffff",
-            toolbar: color2, // Use second color for toolbar to show contrast
-            toolbar_text: "#ffffff",
-            toolbar_field: "#e0e0e0",
-            toolbar_field_text: "#0c0c0d",
-            sidebar: "#ffffff",
-            sidebar_text: "#0c0c0d",
-            popup: "#ffffff",
-            popup_text: "#0c0c0d"
-          }
-        }).then(() => {
-          console.log('Successfully applied gradient theme:', color1, 'to', color2);
-          sendResponse({ success: true, themeId: 'random-gradient' });
-        }).catch((error) => {
-          console.error('Error applying gradient theme:', error);
-          sendResponse({ success: false, error: error.message });
+      // Get the current window to determine screen size
+      browser.windows.getCurrent().then((window) => {
+        const screenWidth = window.width || 1920; // Default to 1920 if can't detect
+        
+        // Create a gradient image using canvas matching screen width
+        createGradientImage(color1, color2, screenWidth).then(({ frameUrl, toolbarUrl }) => {
+          browser.theme.update({
+            images: {
+              theme_frame: frameUrl,
+              additional_backgrounds: [toolbarUrl]
+            },
+            colors: {
+              tab_background_text: "#ffffff",
+              toolbar_text: "#ffffff",
+              toolbar_field: "#e0e0e0",
+              toolbar_field_text: "#0c0c0d",
+              sidebar: "#ffffff",
+              sidebar_text: "#0c0c0d",
+              popup: "#ffffff",
+              popup_text: "#0c0c0d",
+              bookmark_text: "#ffffff"
+            },
+            properties: {
+              additional_backgrounds_alignment: ["top"],
+              additional_backgrounds_tiling: ["no-repeat"]
+            }
+          }).then(() => {
+            console.log('Successfully applied gradient theme:', color1, 'to', color2);
+            sendResponse({ success: true, themeId: 'random-gradient' });
+          }).catch((error) => {
+            console.error('Error applying gradient theme:', error);
+            sendResponse({ success: false, error: error.message });
+          });
         });
       });
       return true;
@@ -125,29 +134,56 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
-// Function to create a gradient image as a data URL
-function createGradientImage(color1, color2) {
+// Function to create gradient images that match screen width
+function createGradientImage(color1, color2, screenWidth) {
   return new Promise((resolve) => {
-    // Create an offscreen canvas
-    const canvas = new OffscreenCanvas(1000, 200);
-    const ctx = canvas.getContext('2d');
+    // Use screen width, or fallback to a large width
+    const width = screenWidth || 5000;
     
-    // Create gradient
-    const gradient = ctx.createLinearGradient(0, 0, 1000, 0);
-    gradient.addColorStop(0, color1);
-    gradient.addColorStop(1, color2);
+    // Create gradient for frame (title bar)
+    const frameCanvas = new OffscreenCanvas(width, 200);
+    const frameCtx = frameCanvas.getContext('2d');
     
-    // Fill canvas with gradient
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, 1000, 200);
+    const frameGradient = frameCtx.createLinearGradient(0, 0, width, 0);
+    frameGradient.addColorStop(0, color1);
+    frameGradient.addColorStop(1, color2);
     
-    // Convert to blob then to data URL
-    canvas.convertToBlob({ type: 'image/png' }).then((blob) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        resolve(reader.result);
+    frameCtx.fillStyle = frameGradient;
+    frameCtx.fillRect(0, 0, width, 200);
+    
+    // Create gradient for toolbar (bookmark bar)
+    const toolbarCanvas = new OffscreenCanvas(width, 200);
+    const toolbarCtx = toolbarCanvas.getContext('2d');
+    
+    const toolbarGradient = toolbarCtx.createLinearGradient(0, 0, width, 0);
+    toolbarGradient.addColorStop(0, color1);
+    toolbarGradient.addColorStop(1, color2);
+    
+    toolbarCtx.fillStyle = toolbarGradient;
+    toolbarCtx.fillRect(0, 0, width, 200);
+    
+    // Convert both to data URLs
+    Promise.all([
+      frameCanvas.convertToBlob({ type: 'image/png' }),
+      toolbarCanvas.convertToBlob({ type: 'image/png' })
+    ]).then(([frameBlob, toolbarBlob]) => {
+      const frameReader = new FileReader();
+      const toolbarReader = new FileReader();
+      
+      let frameUrl, toolbarUrl;
+      
+      frameReader.onloadend = () => {
+        frameUrl = frameReader.result;
+        if (toolbarUrl) resolve({ frameUrl, toolbarUrl });
       };
-      reader.readAsDataURL(blob);
+      
+      toolbarReader.onloadend = () => {
+        toolbarUrl = toolbarReader.result;
+        if (frameUrl) resolve({ frameUrl, toolbarUrl });
+      };
+      
+      frameReader.readAsDataURL(frameBlob);
+      toolbarReader.readAsDataURL(toolbarBlob);
     });
   });
 }
