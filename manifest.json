@@ -11,19 +11,11 @@
   "permissions": ["storage", "management", "theme"],
 
   "browser_action": {
-    "default_popup": "popup.html",
+    "default_popup": "src/popup/popup.html",
     "default_icon": "icons/border-48.png"
   },
 
   "background": {
-    "scripts": ["mongoose.js"],
-    "groups": ["group_class.js"]
-  },
-
-  "content_scripts": [
-    {
-      "matches": ["*://*.mozilla.org/*"],
-      "js": ["borderify.js"]
-    }
-  ]
+    "scripts": ["src/background/mongoose.js"]
+  }
 }
