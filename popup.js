@@ -10,9 +10,31 @@ document.addEventListener('DOMContentLoaded', function() {
   const randomThemeBtn = document.getElementById('random-theme');
   const settingsLink = document.getElementById('open-settings');
   const currentThemeDisplay = document.getElementById('current-theme');
+  const createGroupBtn = document.getElementById('create-group');
+  const deleteGroupBtn = document.getElementById('delete-group');
+  const addThemeBtn = document.getElementById('add-theme');
+  const removeThemeBtn = document.getElementById('remove-theme');
+  //const newGroup = new Group("Name");
 
   // Load and display current theme on popup open
   loadCurrentTheme();
+
+  
+
+  // Create gropu button click
+  /*
+  createGroupBtn.addEventListener('click',function(){
+    const newGroup = new Group(userName);
+  });
+  
+  
+
+  addThemeBtn.addEventListener('click', function() {
+    const newGroup = new Group("First Group");
+    newGroup.addTheme();
+    newGroup.testGroup();
+  });
+  */
 
   // Dark theme button click
   darkThemeBtn.addEventListener('click', function() {
@@ -64,7 +86,8 @@ document.addEventListener('DOMContentLoaded', function() {
     browser.storage.local.get('currentThemeName').then((result) => {
       if (result.currentThemeName) {
         currentThemeDisplay.textContent = result.currentThemeName;
-      } else {
+      } 
+      else {
         currentThemeDisplay.textContent = 'Default';
       }
     }).catch((error) => {

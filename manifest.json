@@ -16,7 +16,8 @@
   },
 
   "background": {
-    "scripts": ["mongoose.js"]
+    "scripts": ["mongoose.js"],
+    "groups": ["group_class.js"]
   },
 
   "content_scripts": [

@@ -1,10 +1,19 @@
 /* global browser */
 'use strict';
 
+//Test
+
 // Listen for messages from popup.js
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
   console.log('Message received:', request);
-  
+ 
+//Need method to create a group
+//Need to add a set group method
+//Need to add change group method
+
+
+
+
   if (request.action === 'changeTheme') {
     const themeId = request.theme;
     console.log('Attempting to change theme to:', themeId);
