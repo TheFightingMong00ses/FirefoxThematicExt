@@ -22,13 +22,13 @@ document.addEventListener('DOMContentLoaded', function() {
   
 
   // Create gropu button click
-  /*
-  createGroupBtn.addEventListener('click',function(){
+  createGroupBtn.addEventListener('click', function(){
     const newGroup = new Group(userName);
+    console.log("This button is clicked");
   });
   
   
-
+  /*
   addThemeBtn.addEventListener('click', function() {
     const newGroup = new Group("First Group");
     newGroup.addTheme();
