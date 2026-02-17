@@ -9,10 +9,21 @@ document.addEventListener("DOMContentLoaded", function () {
   const randomThemeBtn = document.getElementById("random-theme");
   const settingsLink = document.getElementById("open-settings");
   const currentThemeDisplay = document.getElementById("current-theme");
+  const createGroupBtn = document.getElementById('create-group');
+  const deleteGroupBtn = document.getElementById('delete-group');
+  const addThemeBtn = document.getElementById('add-theme');
+  const removeThemeBtn = document.getElementById('remove-theme');
 
   // Load and display current theme on popup open
   loadCurrentTheme();
 
+  createGroupBtn.addEventListener('click', function(){
+    // "newGroup" name needs to be changed to the input name the user creates
+    const newGroup = new Group(newName);
+    console.log(newGroup.groupList[1]);
+    console.log("This button is clicked");
+  });
+  
   // Dark theme button click
   darkThemeBtn.addEventListener("click", function () {
     applyTheme("dark", "Dark Mode");
