@@ -62,17 +62,17 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
       
       // Get the current window to determine screen size
       browser.windows.getCurrent().then((window) => {
-        const screenWidth = window.width || 1920; // Default to 1920 if can't detect
+        const screenWidth = window.width || 1920;
         
-        // Create a gradient image using canvas matching screen width
-        createGradientImage(color1, color2, screenWidth).then(({ frameUrl, toolbarUrl }) => {
+        // Create gradient image
+        createCombinedGradientImage(color1, color2, screenWidth).then((gradientUrl) => {
           browser.theme.update({
             images: {
-              theme_frame: frameUrl,
-              additional_backgrounds: [toolbarUrl]
+              theme_frame: gradientUrl
             },
             colors: {
               tab_background_text: "#ffffff",
+              toolbar: "transparent",  // Make toolbar transparent to show gradient through
               toolbar_text: "#ffffff",
               toolbar_field: "#e0e0e0",
               toolbar_field_text: "#0c0c0d",
@@ -81,10 +81,6 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
               popup: "#ffffff",
               popup_text: "#0c0c0d",
               bookmark_text: "#ffffff"
-            },
-            properties: {
-              additional_backgrounds_alignment: ["top"],
-              additional_backgrounds_tiling: ["no-repeat"]
             }
           }).then(() => {
             console.log('Successfully applied gradient theme:', color1, 'to', color2);
@@ -134,56 +130,31 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
-// Function to create gradient images that match screen width
-function createGradientImage(color1, color2, screenWidth) {
+// Function to create a TALL gradient that covers both frame AND toolbar areas
+function createCombinedGradientImage(color1, color2, screenWidth) {
   return new Promise((resolve) => {
-    // Use screen width, or fallback to a large width
     const width = screenWidth || 5000;
+    const height = 500;  // Taller to cover both areas
     
-    // Create gradient for frame (title bar)
-    const frameCanvas = new OffscreenCanvas(width, 200);
-    const frameCtx = frameCanvas.getContext('2d');
+    // Create canvas
+    const canvas = new OffscreenCanvas(width, height);
+    const ctx = canvas.getContext('2d');
     
-    const frameGradient = frameCtx.createLinearGradient(0, 0, width, 0);
-    frameGradient.addColorStop(0, color1);
-    frameGradient.addColorStop(1, color2);
+    // Create horizontal gradient
+    const gradient = ctx.createLinearGradient(0, 0, width, 0);
+    gradient.addColorStop(0, color1);
+    gradient.addColorStop(1, color2);
     
-    frameCtx.fillStyle = frameGradient;
-    frameCtx.fillRect(0, 0, width, 200);
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, width, height);
     
-    // Create gradient for toolbar (bookmark bar)
-    const toolbarCanvas = new OffscreenCanvas(width, 200);
-    const toolbarCtx = toolbarCanvas.getContext('2d');
-    
-    const toolbarGradient = toolbarCtx.createLinearGradient(0, 0, width, 0);
-    toolbarGradient.addColorStop(0, color1);
-    toolbarGradient.addColorStop(1, color2);
-    
-    toolbarCtx.fillStyle = toolbarGradient;
-    toolbarCtx.fillRect(0, 0, width, 200);
-    
-    // Convert both to data URLs
-    Promise.all([
-      frameCanvas.convertToBlob({ type: 'image/png' }),
-      toolbarCanvas.convertToBlob({ type: 'image/png' })
-    ]).then(([frameBlob, toolbarBlob]) => {
-      const frameReader = new FileReader();
-      const toolbarReader = new FileReader();
-      
-      let frameUrl, toolbarUrl;
-      
-      frameReader.onloadend = () => {
-        frameUrl = frameReader.result;
-        if (toolbarUrl) resolve({ frameUrl, toolbarUrl });
+    // Convert to data URL
+    canvas.convertToBlob({ type: 'image/png' }).then((blob) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        resolve(reader.result);
       };
-      
-      toolbarReader.onloadend = () => {
-        toolbarUrl = toolbarReader.result;
-        if (frameUrl) resolve({ frameUrl, toolbarUrl });
-      };
-      
-      frameReader.readAsDataURL(frameBlob);
-      toolbarReader.readAsDataURL(toolbarBlob);
+      reader.readAsDataURL(blob);
     });
   });
 }
