@@ -1,3 +1,4 @@
+import { Group } from './background/group_class.js';
 /* global browser */
 "use strict";
 
@@ -20,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
   createGroupBtn.addEventListener('click', function(){
     // "newGroup" name needs to be changed to the input name the user creates
     const newGroup = new Group(newName);
+    newGroup.addTheme()
     console.log(newGroup.groupList[1]);
     console.log("This button is clicked");
   });
