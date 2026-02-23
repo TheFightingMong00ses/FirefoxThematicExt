@@ -1,10 +1,20 @@
 /* global browser */
 "use strict";
 
-// Listen for messages from popup.js
-browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log("Message received:", request);
+import { Group } from './group_class.js';  // ✅ Now this works!
 
+// Storage for groups
+const groups = {};
+
+browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  
+  if (request.action === 'createGroup') {
+    const groupName = request.groupName;
+    groups[groupName] = new Group(groupName);  // ✅ Works now!
+    console.log('Group created:', groupName);
+    sendResponse({ success: true });
+    return true;
+  }
   if (request.action === "changeTheme") {
     const themeId = request.theme;
     console.log("Attempting to change theme to:", themeId);

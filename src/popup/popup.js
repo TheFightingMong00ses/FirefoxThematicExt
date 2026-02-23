@@ -3,28 +3,26 @@
 
 // Wait for the DOM to be fully loaded
 document.addEventListener("DOMContentLoaded", function () {
-  // Get references to all the buttons
-  const darkThemeBtn = document.getElementById("dark-theme");
-  const lightThemeBtn = document.getElementById("light-theme");
-  const randomThemeBtn = document.getElementById("random-theme");
-  const settingsLink = document.getElementById("open-settings");
-  const currentThemeDisplay = document.getElementById("current-theme");
-  const createGroupBtn = document.getElementById('create-group');
-  const deleteGroupBtn = document.getElementById('delete-group');
-  const addThemeBtn = document.getElementById('add-theme');
-  const removeThemeBtn = document.getElementById('remove-theme');
 
-  // Load and display current theme on popup open
-  loadCurrentTheme();
+  // Declare all button variables
+  const createGroupBtn = document.getElementById('create-group');
+  const darkThemeBtn = document.getElementById('dark-theme');
+  const lightThemeBtn = document.getElementById('light-theme');
+  const randomThemeBtn = document.getElementById('random-theme');
+  const currentThemeDisplay = document.getElementById('current-theme');
 
   createGroupBtn.addEventListener('click', function(){
-    // "newGroup" name needs to be changed to the input name the user creates
-    const newGroup = new Group(newName);
-    newGroup.addTheme()
-    console.log(newGroup.groupList[1]);
-    console.log("This button is clicked");
+    const groupName = prompt("Enter group name:") || "My Group";
+    
+    // Send message to background script
+    browser.runtime.sendMessage({
+      action: 'createGroup',
+      groupName: groupName
+    }).then((response) => {
+      console.log('Group created:', response);
+    });
   });
-  
+
   // Dark theme button click
   darkThemeBtn.addEventListener("click", function () {
     applyTheme("dark", "Dark Mode");
@@ -45,15 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
     );
   });
 
-  // Settings link click
-  settingsLink.addEventListener("click", function (e) {
-    e.preventDefault();
-    browser.runtime.openOptionsPage();
-  });
-
   // Function to apply a theme
   function applyTheme(themeId, themeName) {
-    // Store the current theme
     browser.storage.local
       .set({
         currentTheme: themeId,
@@ -91,4 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error loading theme:", error);
       });
   }
+
+  // Load the current theme when popup opens
+  loadCurrentTheme();
 });

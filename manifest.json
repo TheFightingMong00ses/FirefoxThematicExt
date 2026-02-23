@@ -17,10 +17,10 @@
 
   "background": {
     "scripts": [
-    "src/background/group_class.js",
-    "src/background/mongoose.js"
-  ],
-  "type": "module"
+      "src/background/group_class.js",
+      "src/background/mongoose.js"
+    ],
+    "type": "module"
   },
   "content_scripts":[
     {

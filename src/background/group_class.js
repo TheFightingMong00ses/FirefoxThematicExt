@@ -2,22 +2,23 @@
 "use strict";
 
 export class Group {
-    constructor (name) {
+     constructor (name) {
         this.name = name;
+        this.groupList = [];
     }
-
     groupList = [];
 
     async currentTheme() {
         //Method that gets the current theme
-        const currentTheme = browser.storage.local.get('currentThemeName')
-        return currentTheme;
+         const result = await browser.storage.local.get('currentThemeName');
+        return result.currentThemeName;
     }
 
     async addTheme() {
         //Method to store the current theme in the group
-        const currentTheme = this.currentTheme();
+        const currentTheme = await this.currentTheme();
         this.groupList.push(currentTheme);
+        console.log('Theme added:', currentTheme);
     }
 
     async removeTheme() {
