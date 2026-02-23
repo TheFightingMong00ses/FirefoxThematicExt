@@ -5,6 +5,7 @@
 document.addEventListener("DOMContentLoaded", function () {
 
   // Declare all button variables
+  const deleteGroupBtn = document.getElementById('delete-group');
   const createGroupBtn = document.getElementById('create-group');
   const darkThemeBtn = document.getElementById('dark-theme');
   const lightThemeBtn = document.getElementById('light-theme');
@@ -20,6 +21,16 @@ document.addEventListener("DOMContentLoaded", function () {
       groupName: groupName
     }).then((response) => {
       console.log('Group created:', response);
+    });
+  });
+
+  deleteGroupBtn.addEventListener('click', function(){
+    const deleteGroup = prompt("Enter the name of the group to delete: ");
+    browser.runtime.sendMessage({
+      action: 'deleteGroup',
+      deleteGroup: deleteGroup
+    }).then((response) => {
+      console.log('Deleted group: ', response);
     });
   });
 

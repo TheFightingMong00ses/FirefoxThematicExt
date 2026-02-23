@@ -4,15 +4,31 @@
 import { Group } from './group_class.js';  // ✅ Now this works!
 
 // Storage for groups
-const groups = {};
+const groups = [];
 
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  
+
+    if (request.action === 'deleteGroup'){
+    const groupToRemove = request.deleteGroup;
+    const index = groups.findIndex(group => group.name === request.deleteGroup);
+    if (index > -1) {
+      groups.splice(index,1);
+      console.log(groupToRemove, ' was deleted');
+      sendResponse({success: true});
+      return true
+    }
+    else {
+      console.log('Entered name was not found');
+    }
+    
+  }
   if (request.action === 'createGroup') {
     const groupName = request.groupName;
-    groups[groupName] = new Group(groupName);  // ✅ Works now!
+    const newGroup = new Group(groupName);
+    groups.push(newGroup);  // ✅ Works now!
     console.log('Group created:', groupName);
     sendResponse({ success: true });
+    console.log(groups.length - 1);
     return true;
   }
   if (request.action === "changeTheme") {

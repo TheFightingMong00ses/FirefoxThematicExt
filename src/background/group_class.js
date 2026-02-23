@@ -42,12 +42,6 @@ export class Group {
         Method that cycles to previous theme in list
         */
     }
-    
-    async removeGroup() {
-        /*
-        Method that removes entire group
-        */
-    }
 
     async testGroup() {
         const test = this.groupList[1];
