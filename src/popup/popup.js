@@ -1,4 +1,3 @@
-import { Group } from '../background/group_class.js';
 /* global browser */
 "use strict";
 

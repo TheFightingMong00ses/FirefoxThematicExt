@@ -18,8 +18,7 @@
   "background": {
     "scripts": [
     "src/background/group_class.js",
-    "src/background/mongoose.js",
-    "src/popup/popup.js"
+    "src/background/mongoose.js"
   ],
   "type": "module"
   },
