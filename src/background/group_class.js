@@ -1,7 +1,6 @@
 /* global browser */
-/* exported Group */  // 
+/* eslint-disable no-unused-vars */
 "use strict";
-
 
 class Group {
   constructor(name) {
