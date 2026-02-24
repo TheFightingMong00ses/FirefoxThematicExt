@@ -1,4 +1,5 @@
 /* global browser */
+/* global browser Group */  
 "use strict";
 
 // group_class.js is loaded before this script via manifest.json

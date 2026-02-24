@@ -1,5 +1,7 @@
 /* global browser */
+/* exported Group */  // 
 "use strict";
+
 
 class Group {
   constructor(name) {
