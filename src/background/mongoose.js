@@ -85,9 +85,19 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log("Attempting to change theme to:", themeId);
 
     if (themeId === "dark") {
-      browser.management
-        .setEnabled("firefox-compact-dark@mozilla.org", true)
-        .then(() => {
+      // Update custom theme to dark colors first, then switch to managed dark theme
+      browser.theme.update({
+        colors: {
+          frame: "#1a1a1a",
+          tab_background_text: "#ffffff",
+          toolbar: "#2a2a2a",
+          toolbar_text: "#ffffff",
+          toolbar_field: "#3a3a3a",
+          toolbar_field_text: "#ffffff",
+        }
+      })
+      .then(() => browser.management.setEnabled("firefox-compact-dark@mozilla.org", true))
+      .then(() => {
           console.log("Successfully enabled dark theme");
           sendResponse({ success: true, themeId: "firefox-compact-dark@mozilla.org" });
         })
@@ -98,9 +108,19 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
       return true;
 
     } else if (themeId === "light") {
-      browser.management
-        .setEnabled("firefox-compact-light@mozilla.org", true)
-        .then(() => {
+      // Update custom theme to light colors first, then switch to managed light theme
+      browser.theme.update({
+        colors: {
+          frame: "#f5f5f5",
+          tab_background_text: "#000000",
+          toolbar: "#ffffff",
+          toolbar_text: "#000000",
+          toolbar_field: "#ffffff",
+          toolbar_field_text: "#000000",
+        }
+      })
+      .then(() => browser.management.setEnabled("firefox-compact-light@mozilla.org", true))
+      .then(() => {
           console.log("Successfully enabled light theme");
           sendResponse({ success: true, themeId: "firefox-compact-light@mozilla.org" });
         })
@@ -195,9 +215,19 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
       return true;
 
     } else if (themeId === "purple") {
-      browser.management
-        .setEnabled("firefox-alpenglow@mozilla.org", true)
-        .then(() => {
+      // Update custom theme to purple colors first, then switch to managed purple theme
+      browser.theme.update({
+        colors: {
+          frame: "#5b3fa6",
+          tab_background_text: "#ffffff",
+          toolbar: "#7b5fbf",
+          toolbar_text: "#ffffff",
+          toolbar_field: "#ffffff",
+          toolbar_field_text: "#000000",
+        }
+      })
+      .then(() => browser.management.setEnabled("firefox-alpenglow@mozilla.org", true))
+      .then(() => {
           console.log("Successfully enabled purple theme");
           sendResponse({ success: true, themeId: "firefox-alpenglow@mozilla.org" });
         })

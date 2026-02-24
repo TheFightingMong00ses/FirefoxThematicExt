@@ -22,6 +22,63 @@ document.addEventListener('DOMContentLoaded', function() {
   // Track current mode (default is solid)
   let isGradientMode = false;
 
+  // ── Custom Modal Helpers ──────────────────────────────────────────
+  function showAlert(message) {
+    return new Promise((resolve) => {
+      const overlay = document.getElementById('modal-overlay');
+      const msg = document.getElementById('modal-message');
+      const input = document.getElementById('modal-input');
+      const confirmBtn = document.getElementById('modal-confirm');
+      const cancelBtn = document.getElementById('modal-cancel');
+
+      msg.textContent = message;
+      input.classList.add('hidden');
+      cancelBtn.classList.add('hidden');
+      overlay.classList.remove('hidden');
+
+      confirmBtn.onclick = () => {
+        overlay.classList.add('hidden');
+        resolve();
+      };
+    });
+  }
+
+  function showPrompt(message, placeholder) {
+    return new Promise((resolve) => {
+      const overlay = document.getElementById('modal-overlay');
+      const msg = document.getElementById('modal-message');
+      const input = document.getElementById('modal-input');
+      const confirmBtn = document.getElementById('modal-confirm');
+      const cancelBtn = document.getElementById('modal-cancel');
+
+      msg.textContent = message;
+      input.value = '';
+      input.placeholder = placeholder || '';
+      input.classList.remove('hidden');
+      cancelBtn.classList.remove('hidden');
+      overlay.classList.remove('hidden');
+      input.focus();
+
+      confirmBtn.onclick = () => {
+        overlay.classList.add('hidden');
+        resolve(input.value.trim() || null);
+      };
+
+      cancelBtn.onclick = () => {
+        overlay.classList.add('hidden');
+        resolve(null);
+      };
+
+      input.onkeydown = (e) => {
+        if (e.key === 'Enter') confirmBtn.click();
+        if (e.key === 'Escape') cancelBtn.click();
+      };
+    });
+  }
+  // ─────────────────────────────────────────────────────────────────
+
+
+
   // Load and display current theme and mode on popup open
   loadCurrentTheme();
   loadCurrentMode();
@@ -69,8 +126,9 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Create group button click (from groupmate)
-  createGroupBtn.addEventListener('click', function() {
-    const groupName = prompt("Enter group name:") || "My Group";
+  createGroupBtn.addEventListener('click', async function() {
+    const groupName = await showPrompt('Enter a name for the new group:', 'Group name');
+    if (!groupName) return;
     browser.runtime.sendMessage({
       action: 'createGroup',
       groupName: groupName
@@ -81,8 +139,9 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Delete group button click (from groupmate)
-  deleteGroupBtn.addEventListener('click', function() {
-    const deleteGroup = prompt("Enter the name of the group to delete:");
+  deleteGroupBtn.addEventListener('click', async function() {
+    const deleteGroup = await showPrompt('Enter the name of the group to delete:', 'Group name');
+    if (!deleteGroup) return;
     browser.runtime.sendMessage({
       action: 'deleteGroup',
       deleteGroup: deleteGroup
@@ -93,31 +152,32 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Add current theme to a group
-  addThemeBtn.addEventListener('click', function() {
-    browser.storage.local.get(['groups', 'currentThemeName', 'currentTheme', 'currentCustomColor', 'currentGradientColor1', 'currentGradientColor2']).then((result) => {
+  addThemeBtn.addEventListener('click', async function() {
+    try {
+      const result = await browser.storage.local.get(['groups', 'currentThemeName', 'currentTheme', 'currentCustomColor', 'currentGradientColor1', 'currentGradientColor2']);
       const savedGroups = result.groups || [];
       const currentThemeName = result.currentThemeName || 'Default';
       const currentThemeId = result.currentTheme || 'default';
 
       if (savedGroups.length === 0) {
-        alert('No groups exist yet. Create a group first!');
+        await showAlert('No groups exist yet. Create a group first!');
         return;
       }
 
       // Build a list of group names for the user to pick from
       const groupNames = savedGroups.map((g, i) => `${i + 1}. ${g.name}`).join('\n');
-      const input = prompt(`Current theme: "${currentThemeName}"\n\nAdd to which group?\n${groupNames}\n\nEnter group name:`);
+      const input = await showPrompt(`Current theme: "${currentThemeName}"\n\nAdd to which group?\n${groupNames}\n\nEnter group name:`, 'Group name');
       if (!input) return;
 
       const targetGroup = savedGroups.find(g => g.name.toLowerCase() === input.toLowerCase());
       if (!targetGroup) {
-        alert(`Group "${input}" not found.`);
+        await showAlert(`Group "${input}" not found.`);
         return;
       }
 
       // Check for duplicate by name
       if (targetGroup.groupList.some(t => t.name === currentThemeName)) {
-        alert(`"${currentThemeName}" is already in group "${targetGroup.name}".`);
+        await showAlert(`"${currentThemeName}" is already in group "${targetGroup.name}".`);
         return;
       }
 
@@ -131,63 +191,62 @@ document.addEventListener('DOMContentLoaded', function() {
       };
 
       targetGroup.groupList.push(themeObject);
-      browser.storage.local.set({ groups: savedGroups }).then(() => {
-        console.log('Theme added to group:', targetGroup.name);
-        loadAndDisplayGroups();
-        alert(`"${currentThemeName}" added to group "${targetGroup.name}"!`);
-      });
-    }).catch((error) => {
+      await browser.storage.local.set({ groups: savedGroups });
+      console.log('Theme added to group:', targetGroup.name);
+      loadAndDisplayGroups();
+      await showAlert(`"${currentThemeName}" added to group "${targetGroup.name}"!`);
+    } catch(error) {
       console.error('Error adding theme to group:', error);
-    });
+    }
   });
 
   // Remove a theme from a group
-  removeThemeBtn.addEventListener('click', function() {
-    browser.storage.local.get('groups').then((result) => {
+  removeThemeBtn.addEventListener('click', async function() {
+    try {
+      const result = await browser.storage.local.get('groups');
       const savedGroups = result.groups || [];
 
       if (savedGroups.length === 0) {
-        alert('No groups exist yet. Create a group first!');
+        await showAlert('No groups exist yet. Create a group first!');
         return;
       }
 
       // Step 1: pick a group
       const groupNames = savedGroups.map((g, i) => `${i + 1}. ${g.name}`).join('\n');
-      const groupInput = prompt(`Remove theme from which group?\n${groupNames}\n\nEnter group name:`);
+      const groupInput = await showPrompt(`Remove theme from which group?\n${groupNames}\n\nEnter group name:`, 'Group name');
       if (!groupInput) return;
 
       const targetGroup = savedGroups.find(g => g.name.toLowerCase() === groupInput.toLowerCase());
       if (!targetGroup) {
-        alert(`Group "${groupInput}" not found.`);
+        await showAlert(`Group "${groupInput}" not found.`);
         return;
       }
 
       if (targetGroup.groupList.length === 0) {
-        alert(`Group "${targetGroup.name}" has no themes to remove.`);
+        await showAlert(`Group "${targetGroup.name}" has no themes to remove.`);
         return;
       }
 
       // Step 2: pick a theme from that group
       const themeNames = targetGroup.groupList.map((t, i) => `${i + 1}. ${t.name || t}`).join('\n');
-      const themeInput = prompt(`Themes in "${targetGroup.name}":\n${themeNames}\n\nEnter theme name to remove:`);
+      const themeInput = await showPrompt(`Themes in "${targetGroup.name}":\n${themeNames}\n\nEnter theme name to remove:`, 'Theme name');
       if (!themeInput) return;
 
       const themeIndex = targetGroup.groupList.findIndex(t => (t.name || t).toLowerCase() === themeInput.toLowerCase());
       if (themeIndex === -1) {
-        alert(`Theme "${themeInput}" not found in group "${targetGroup.name}".`);
+        await showAlert(`Theme "${themeInput}" not found in group "${targetGroup.name}".`);
         return;
       }
 
       // Remove the theme
       targetGroup.groupList.splice(themeIndex, 1);
-      browser.storage.local.set({ groups: savedGroups }).then(() => {
-        console.log('Theme removed from group:', targetGroup.name);
-        loadAndDisplayGroups();
-        alert(`"${themeInput}" removed from group "${targetGroup.name}"!`);
-      });
-    }).catch((error) => {
+      await browser.storage.local.set({ groups: savedGroups });
+      console.log('Theme removed from group:', targetGroup.name);
+      loadAndDisplayGroups();
+      await showAlert(`"${themeInput}" removed from group "${targetGroup.name}"!`);
+    } catch(error) {
       console.error('Error removing theme from group:', error);
-    });
+    }
   });
 
   // Settings link click (only wired if element exists in HTML)
