@@ -10,7 +10,7 @@ export class Group {
 
     async currentTheme() {
         //Method that gets the current theme
-         const result = await browser.storage.local.get('currentThemeName');
+        const result = await browser.storage.local.get('currentThemeName');
         return result.currentThemeName;
     }
 
@@ -23,27 +23,44 @@ export class Group {
 
     async removeTheme() {
         //Method that removes current theme
-        //const currentTheme = this.currentTheme();
+        const currentTheme = this.currentTheme();
+        const index = groupsList.findIndex(groupList => groupList.name === currentTheme);
+        if (index > -1){
+            this.groupList.splice(index,1);
+        }
+        else {
+            console.log('Theme not found')
+        }
     }
 
     async cycleNextTheme() {
         //Method that cycles to next theme in list
-        //browser.management.setEnabled(this.groupList)
+        const currentTheme = this.currentTheme();
+        const index = groupsList.findIndex(groupList => groupList.name === currentTheme);
+        const newTheme = this.groupList[index+1];
+        browser.management.setEnabled(newTheme, true)
     }
 
     async cycleBackTheme() {
-        /*
-        Method that cycles to previous theme in list
-        */
+        //Method that cycles to previous theme in list
+        const currentTheme = this.currentTheme();
+        const index = groupsList.findIndex(groupList => groupList.name === currentTheme);
+        const newTheme = this.groupList[index-1];
+        browser.management.setEnabled(newTheme, true)
     }
 
     async cycleRandomTheme() {
-        /*
-        Method that cycles to previous theme in list
-        */
+        //Method that cycles to previous theme in list
+
+
     }
 
-    async testGroup() {
+    checkDupeTheme() {
+        const currentTheme = this.currentTheme();
+        
+    }
+
+    async testGroupContents() {
         const test = this.groupList[1];
         console.log(test)
     }
