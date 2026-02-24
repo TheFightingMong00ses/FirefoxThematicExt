@@ -1,70 +1,87 @@
-/* Global Browser */
+/* global browser */
 "use strict";
 
-export class Group {
-     constructor (name) {
-        this.name = name;
-        this.groupList = [];
+class Group {
+  constructor(name) {
+    this.name = name;
+    this.groupList = [];  // list of theme IDs belonging to this group
+  }
+
+  // Gets the current theme name from storage
+  async currentTheme() {
+    const result = await browser.storage.local.get('currentThemeName');
+    return result.currentThemeName;
+  }
+
+  // Adds the current theme to this group
+  async addTheme() {
+    const currentTheme = await this.currentTheme();
+    this.groupList.push(currentTheme);
+    console.log('Theme added:', currentTheme);
+  }
+
+  // Removes the current theme from this group
+  async removeTheme() {
+    const currentTheme = await this.currentTheme(); // FIX: was missing await
+    const index = this.groupList.findIndex(theme => theme === currentTheme); // FIX: was using wrong variable groupsList
+    if (index > -1) {
+      this.groupList.splice(index, 1);
+      console.log('Theme removed:', currentTheme);
+    } else {
+      console.log('Theme not found:', currentTheme);
     }
-    groupList = [];
+  }
 
-    async currentTheme() {
-        //Method that gets the current theme
-        const result = await browser.storage.local.get('currentThemeName');
-        return result.currentThemeName;
+  // Cycles to the next theme in the list
+  async cycleNextTheme() {
+    const currentTheme = await this.currentTheme(); // FIX: was missing await
+    const index = this.groupList.findIndex(theme => theme === currentTheme); // FIX: was using wrong variable
+    if (index === -1 || this.groupList.length === 0) {
+      console.log('Current theme not in group or group is empty');
+      return;
     }
+    const nextIndex = (index + 1) % this.groupList.length; // FIX: wraps around instead of going out of bounds
+    const newTheme = this.groupList[nextIndex];
+    browser.management.setEnabled(newTheme, true);
+    console.log('Cycled to next theme:', newTheme);
+  }
 
-    async addTheme() {
-        //Method to store the current theme in the group
-        const currentTheme = await this.currentTheme();
-        this.groupList.push(currentTheme);
-        console.log('Theme added:', currentTheme);
+  // Cycles to the previous theme in the list
+  async cycleBackTheme() {
+    const currentTheme = await this.currentTheme(); // FIX: was missing await
+    const index = this.groupList.findIndex(theme => theme === currentTheme); // FIX: was using wrong variable
+    if (index === -1 || this.groupList.length === 0) {
+      console.log('Current theme not in group or group is empty');
+      return;
     }
+    const prevIndex = (index - 1 + this.groupList.length) % this.groupList.length; // FIX: wraps around instead of going negative
+    const newTheme = this.groupList[prevIndex];
+    browser.management.setEnabled(newTheme, true);
+    console.log('Cycled to previous theme:', newTheme);
+  }
 
-    async removeTheme() {
-        //Method that removes current theme
-        const currentTheme = this.currentTheme();
-        const index = groupsList.findIndex(groupList => groupList.name === currentTheme);
-        if (index > -1){
-            this.groupList.splice(index,1);
-        }
-        else {
-            console.log('Theme not found')
-        }
+  // Cycles to a random theme in the list
+  async cycleRandomTheme() {
+    if (this.groupList.length === 0) {
+      console.log('Group is empty');
+      return;
     }
+    const randomIndex = Math.floor(Math.random() * this.groupList.length);
+    const newTheme = this.groupList[randomIndex];
+    browser.management.setEnabled(newTheme, true);
+    console.log('Cycled to random theme:', newTheme);
+  }
 
-    async cycleNextTheme() {
-        //Method that cycles to next theme in list
-        const currentTheme = this.currentTheme();
-        const index = groupsList.findIndex(groupList => groupList.name === currentTheme);
-        const newTheme = this.groupList[index+1];
-        browser.management.setEnabled(newTheme, true)
-    }
+  // Clears all themes from this group
+  async removeGroup() {
+    this.groupList = [];
+    console.log('Group cleared:', this.name);
+  }
 
-    async cycleBackTheme() {
-        //Method that cycles to previous theme in list
-        const currentTheme = this.currentTheme();
-        const index = groupsList.findIndex(groupList => groupList.name === currentTheme);
-        const newTheme = this.groupList[index-1];
-        browser.management.setEnabled(newTheme, true)
-    }
-
-    async cycleRandomTheme() {
-        //Method that cycles to previous theme in list
-
-
-    }
-
-    checkDupeTheme() {
-        const currentTheme = this.currentTheme();
-        
-    }
-
-    async testGroupContents() {
-        const test = this.groupList[1];
-        console.log(test)
-    }
+  // Debug helper
+  async testGroupContents() {
+    console.log('Group:', this.name, '| Themes:', this.groupList);
+  }
 }
 
-// Make sure it's available globally
 console.log('Group class loaded');
