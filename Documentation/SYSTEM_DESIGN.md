@@ -1,22 +1,24 @@
 # System Design Document
+
 ## Mongoose Grouper - Firefox Theme Extension
 
 ---
 
 ## Document Control
 
-| Field | Value |
-|-------|-------|
-| **Version** | 1.0 |
-| **Last Updated** | [Date] |
-| **Author(s)** | [Team Member Names] |
-| **Reviewers** | [Reviewer Names] |
-| **Next Review Date** | [Date] |
-| **Status** | Draft / In Review / Approved |
+| Field                | Value                        |
+| -------------------- | ---------------------------- |
+| **Version**          | 1.0                          |
+| **Last Updated**     | [Date]                       |
+| **Author(s)**        | [Team Member Names]          |
+| **Reviewers**        | [Reviewer Names]             |
+| **Next Review Date** | [Date]                       |
+| **Status**           | Draft / In Review / Approved |
 
 ---
 
 ## Table of Contents
+
 1. [Project Overview](#1-project-overview)
 2. [System Architecture](#2-system-architecture)
 3. [Technology Stack](#3-technology-stack)
@@ -40,17 +42,21 @@
 ## 1. Project Overview
 
 ### 1.1 Project Name
+
 **Mongoose Grouper** - Firefox Theme Extension
 
 ### 1.2 Purpose
+
 [Describe what problem this extension solves]
 
 **Example:**
+
 > This extension allows Firefox users to organize and quickly switch between multiple themes, improving personalization and user experience. Users can create theme groups for different contexts (work, leisure, focus) and switch between them with one click.
 
 ### 1.3 Scope
 
 **In Scope (What we're building):**
+
 - [ ] Theme grouping and organization
 - [ ] Quick theme switching UI
 - [ ] Save/load theme configurations
@@ -58,22 +64,27 @@
 - [ ] [Add more features]
 
 **Out of Scope (What we're NOT building in v1.0):**
+
 - [ ] Creating new themes from scratch (use existing Firefox themes)
 - [ ] Cloud syncing across devices (future feature)
 - [ ] [Add more exclusions]
 
 ### 1.4 Target Users
+
 [Who will use this extension?]
 
 **Example:**
+
 - Firefox users who frequently change themes
 - Users who want different themes for different contexts (work vs personal)
 - Power users who manage multiple Firefox profiles
 
 ### 1.5 Success Criteria
+
 [How do we know if this project succeeded?]
 
 **Example:**
+
 - [ ] Users can create and manage theme groups
 - [ ] Theme switching happens in < 200ms
 - [ ] Extension works on Firefox version [X] and above
@@ -115,14 +126,16 @@
 ### 2.2 Component Breakdown
 
 #### **Frontend (User Interface)**
+
 - **Technology:** HTML, CSS, JavaScript
-- **Responsibilities:** 
+- **Responsibilities:**
   - Display theme groups and themes
   - Handle user interactions (clicks, selections)
   - Show visual feedback
 - **Key Files:** `popup.html`, `popup.js`, `popup.css`, `settings.html`
 
 #### **Backend Logic (Theme Manager)**
+
 - **Technology:** JavaScript (ES6+)
 - **Responsibilities:**
   - Theme switching logic
@@ -132,6 +145,7 @@
 - **Key Files:** `theme-manager.js`, `group-manager.js`, `state-manager.js`
 
 #### **Storage Handler**
+
 - **Technology:** Firefox Storage API
 - **Responsibilities:**
   - Persist theme groups
@@ -140,6 +154,7 @@
 - **Key Files:** `storage-handler.js`
 
 #### **Firefox Integration**
+
 - **Technology:** WebExtensions API
 - **Responsibilities:**
   - Access Firefox theme API
@@ -151,20 +166,21 @@
 
 ## 3. Technology Stack
 
-| Component | Technology | Version | Rationale |
-|-----------|-----------|---------|-----------|
-| **Language** | JavaScript | ES6+ | Required for Firefox extensions |
-| **UI Framework** | Vanilla JS | - | Lightweight, no dependencies, fast loading |
-| **Package Manager** | npm | 11.6.2 | Standard for Node.js projects |
-| **Linting** | ESLint | 9.39.2 | Code quality and consistency |
-| **Documentation** | JSDoc | 4.0.5 | Generate API documentation |
-| **Testing** | [TBD - Jest/Mocha?] | - | Unit and integration tests |
-| **CI/CD** | GitHub Actions | - | Automated testing and builds |
-| **Version Control** | Git/GitHub | - | Team collaboration |
-| **Code Editor** | Visual Studio Code | Latest | Team standard |
-| **Node.js** | Node.js | 24.13.0 | Development environment |
+| Component           | Technology          | Version | Rationale                                  |
+| ------------------- | ------------------- | ------- | ------------------------------------------ |
+| **Language**        | JavaScript          | ES6+    | Required for Firefox extensions            |
+| **UI Framework**    | Vanilla JS          | -       | Lightweight, no dependencies, fast loading |
+| **Package Manager** | npm                 | 11.6.2  | Standard for Node.js projects              |
+| **Linting**         | ESLint              | 9.39.2  | Code quality and consistency               |
+| **Documentation**   | JSDoc               | 4.0.5   | Generate API documentation                 |
+| **Testing**         | [TBD - Jest/Mocha?] | -       | Unit and integration tests                 |
+| **CI/CD**           | GitHub Actions      | -       | Automated testing and builds               |
+| **Version Control** | Git/GitHub          | -       | Team collaboration                         |
+| **Code Editor**     | Visual Studio Code  | Latest  | Team standard                              |
+| **Node.js**         | Node.js             | 24.13.0 | Development environment                    |
 
 ### 3.1 Browser Compatibility
+
 - **Minimum Firefox Version:** [e.g., 115 ESR]
 - **Tested Firefox Versions:** [List versions tested]
 - **Desktop Only** or **Mobile Support:** [Specify]
@@ -408,13 +424,13 @@ function formatDate(isoDate)
 
 ### 5.2 Firefox APIs Used
 
-| API | Purpose | Documentation |
-|-----|---------|---------------|
-| `browser.theme` | Apply and manage themes | [Link](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/theme) |
-| `browser.storage.local` | Store extension data locally | [Link](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage) |
-| `browser.runtime` | Extension lifecycle management | [Link](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime) |
-| `browser.tabs` | (If needed) Tab management | [Link](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs) |
-| `browser.notifications` | Show notifications | [Link](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/notifications) |
+| API                     | Purpose                        | Documentation                                                                                    |
+| ----------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------ |
+| `browser.theme`         | Apply and manage themes        | [Link](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/theme)         |
+| `browser.storage.local` | Store extension data locally   | [Link](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage)       |
+| `browser.runtime`       | Extension lifecycle management | [Link](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime)       |
+| `browser.tabs`          | (If needed) Tab management     | [Link](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs)          |
+| `browser.notifications` | Show notifications             | [Link](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/notifications) |
 
 ---
 
@@ -425,12 +441,14 @@ function formatDate(isoDate)
 **Purpose:** Primary interface for quick theme switching
 
 **Components:**
+
 - Theme group selector (dropdown)
 - List of themes in selected group
 - Quick action buttons
 - Settings icon
 
 **Wireframe:**
+
 ```
 ┌─────────────────────────────────┐
 │ Mongoose Grouper           ⚙️   │
@@ -449,6 +467,7 @@ function formatDate(isoDate)
 ```
 
 **Interactions:**
+
 - Click theme name to activate
 - Click group dropdown to switch groups
 - Click settings gear to open settings page
@@ -459,6 +478,7 @@ function formatDate(isoDate)
 **Purpose:** Manage groups, themes, and preferences
 
 **Sections:**
+
 1. **Theme Groups Management**
    - Create new groups
    - Edit existing groups
@@ -482,6 +502,7 @@ function formatDate(isoDate)
    - Import configuration from JSON
 
 **Wireframe:**
+
 ```
 ┌─────────────────────────────────────────────┐
 │ Mongoose Grouper - Settings                 │
@@ -512,17 +533,20 @@ function formatDate(isoDate)
 ### 6.3 UI/UX Guidelines
 
 **Design Principles:**
+
 - **Simplicity:** Clean, uncluttered interface
 - **Speed:** Fast loading and theme switching
 - **Accessibility:** Keyboard navigation, screen reader support
 - **Consistency:** Follow Firefox design language
 
 **Color Scheme:**
+
 - Use Firefox brand colors where appropriate
 - Support dark and light modes
 - High contrast for accessibility
 
 **Typography:**
+
 - Font: System default or Firefox's standard font
 - Size: 14px for body, 16px for headers
 - Weight: Regular for body, Bold for headers
@@ -608,14 +632,15 @@ List all permissions needed in `manifest.json`:
 ```json
 {
   "permissions": [
-    "storage",      // To save user data locally
-    "theme",        // To access and modify themes
+    "storage", // To save user data locally
+    "theme", // To access and modify themes
     "notifications" // To show user notifications (optional)
   ]
 }
 ```
 
 **Justification for each permission:**
+
 - `storage`: Required to persist theme groups and user preferences
 - `theme`: Required to apply and manage Firefox themes
 - `notifications`: Optional, for user feedback on theme changes
@@ -623,27 +648,31 @@ List all permissions needed in `manifest.json`:
 ### 8.2 Security Measures
 
 **Input Validation:**
+
 - Sanitize all user inputs (group names, theme names)
 - Validate data structure before storing
 - Maximum length limits on text fields
 - No executable code in user inputs
 
 **Data Storage:**
+
 - All data stored locally only (no external servers)
 - No sensitive personal information collected
 - Regular data validation on load
 - Safe JSON parsing with error handling
 
 **Code Security:**
+
 - No `eval()` or `Function()` constructor usage
 - No inline scripts (CSP compliant)
 - No external script loading
 - Strict Content Security Policy
 
 **Example validation:**
+
 ```javascript
 function validateGroupName(name) {
-  if (typeof name !== 'string') return false;
+  if (typeof name !== "string") return false;
   if (name.length < 1 || name.length > 50) return false;
   // Only allow alphanumeric, spaces, hyphens, underscores
   if (!/^[a-zA-Z0-9\s\-_]+$/.test(name)) return false;
@@ -654,6 +683,7 @@ function validateGroupName(name) {
 ### 8.3 Privacy
 
 **Data Collection:**
+
 - ❌ No telemetry
 - ❌ No analytics
 - ❌ No tracking
@@ -661,6 +691,7 @@ function validateGroupName(name) {
 - ✅ All data stays local
 
 **User Control:**
+
 - Users can export their data
 - Users can delete all data
 - Clear data deletion workflow
@@ -682,41 +713,44 @@ function validateGroupName(name) {
 
 ### 9.1 Performance Targets
 
-| Metric | Target | Critical Threshold |
-|--------|--------|-------------------|
-| Theme switch time | < 200ms | < 500ms |
-| Popup load time | < 100ms | < 300ms |
-| Settings page load | < 200ms | < 500ms |
-| Storage read time | < 50ms | < 150ms |
-| Storage write time | < 100ms | < 300ms |
-| Memory usage | < 10MB | < 25MB |
-| Storage usage | < 5MB | < 10MB |
+| Metric             | Target  | Critical Threshold |
+| ------------------ | ------- | ------------------ |
+| Theme switch time  | < 200ms | < 500ms            |
+| Popup load time    | < 100ms | < 300ms            |
+| Settings page load | < 200ms | < 500ms            |
+| Storage read time  | < 50ms  | < 150ms            |
+| Storage write time | < 100ms | < 300ms            |
+| Memory usage       | < 10MB  | < 25MB             |
+| Storage usage      | < 5MB   | < 10MB             |
 
 ### 9.2 Scalability Limits
 
-| Resource | Recommended Max | Hard Limit |
-|----------|----------------|------------|
-| Theme groups | 20 groups | 50 groups |
-| Themes per group | 10 themes | 100 themes |
-| Total themes tracked | 100 themes | 500 themes |
-| Group name length | 30 chars | 50 chars |
-| Theme name length | 40 chars | 100 chars |
+| Resource             | Recommended Max | Hard Limit |
+| -------------------- | --------------- | ---------- |
+| Theme groups         | 20 groups       | 50 groups  |
+| Themes per group     | 10 themes       | 100 themes |
+| Total themes tracked | 100 themes      | 500 themes |
+| Group name length    | 30 chars        | 50 chars   |
+| Theme name length    | 40 chars        | 100 chars  |
 
 ### 9.3 Optimization Strategies
 
 **Code Optimization:**
+
 - Lazy load settings page
 - Debounce search/filter operations
 - Use event delegation for lists
 - Minimize DOM manipulations
 
 **Data Optimization:**
+
 - Cache frequently accessed data
 - Implement data pagination for large lists
 - Compress preview images
 - Clean up unused data periodically
 
 **Storage Optimization:**
+
 - Use efficient data structures
 - Avoid storing redundant data
 - Implement storage cleanup
@@ -729,41 +763,47 @@ function validateGroupName(name) {
 ### 10.1 Error Categories
 
 **1. Storage Errors**
+
 ```javascript
 try {
-  await saveData('groups', groupData);
+  await saveData("groups", groupData);
 } catch (error) {
-  console.error('Storage save failed:', error);
-  showNotification('Failed to save changes. Please try again.', 'error');
+  console.error("Storage save failed:", error);
+  showNotification("Failed to save changes. Please try again.", "error");
   // Attempt recovery or rollback
 }
 ```
 
 **2. Theme API Errors**
+
 ```javascript
 try {
   await browser.theme.update(themeId, themeData);
 } catch (error) {
-  console.error('Theme application failed:', error);
-  showNotification('Could not apply theme. Theme may be unavailable.', 'error');
+  console.error("Theme application failed:", error);
+  showNotification("Could not apply theme. Theme may be unavailable.", "error");
   // Revert to previous theme
 }
 ```
 
 **3. Validation Errors**
+
 ```javascript
 function createGroup(name, themes) {
   if (!validateGroupName(name)) {
-    throw new ValidationError('Invalid group name. Use only letters, numbers, and spaces.');
+    throw new ValidationError(
+      "Invalid group name. Use only letters, numbers, and spaces.",
+    );
   }
   if (!Array.isArray(themes)) {
-    throw new ValidationError('Themes must be an array.');
+    throw new ValidationError("Themes must be an array.");
   }
   // Proceed with creation
 }
 ```
 
 **4. Network Errors** (if applicable)
+
 ```javascript
 // Not applicable for v1.0 (local-only extension)
 // Future consideration for cloud sync
@@ -772,12 +812,14 @@ function createGroup(name, themes) {
 ### 10.2 Error Handling Strategy
 
 **User-Facing Errors:**
+
 - Show clear, actionable error messages
 - Provide recovery suggestions
 - Log detailed errors for debugging
 - Never expose technical details to users
 
 **Developer Errors:**
+
 - Comprehensive console logging
 - Error context (what operation, what data)
 - Stack traces in development mode
@@ -785,16 +827,17 @@ function createGroup(name, themes) {
 
 ### 10.3 Error Messages
 
-| Error Type | User Message | Developer Log |
-|------------|-------------|---------------|
-| Storage full | "Storage is full. Please delete some groups to continue." | "QuotaExceededError: storage limit reached" |
-| Invalid theme | "This theme is no longer available." | "Theme ID not found: [id]" |
-| Invalid data | "Unable to load data. Please try again." | "Data validation failed: [details]" |
-| Permission denied | "Extension needs storage permission to continue." | "Permission error: storage not granted" |
+| Error Type        | User Message                                              | Developer Log                               |
+| ----------------- | --------------------------------------------------------- | ------------------------------------------- |
+| Storage full      | "Storage is full. Please delete some groups to continue." | "QuotaExceededError: storage limit reached" |
+| Invalid theme     | "This theme is no longer available."                      | "Theme ID not found: [id]"                  |
+| Invalid data      | "Unable to load data. Please try again."                  | "Data validation failed: [details]"         |
+| Permission denied | "Extension needs storage permission to continue."         | "Permission error: storage not granted"     |
 
 ### 10.4 Fallback Behaviors
 
 **When things fail:**
+
 1. **Storage failure:** Use in-memory cache, warn user on exit
 2. **Theme unavailable:** Use Firefox default theme
 3. **Corrupted data:** Reset to defaults, backup old data
@@ -809,6 +852,7 @@ function createGroup(name, themes) {
 **Scope:** Individual functions and modules
 
 **What to test:**
+
 - Theme manager functions
 - Group manager functions
 - Storage operations
@@ -816,17 +860,18 @@ function createGroup(name, themes) {
 - Utility functions
 
 **Example test:**
+
 ```javascript
-describe('Theme Manager', () => {
-  test('applyTheme applies the correct theme', async () => {
-    const themeId = 'test-theme-123';
+describe("Theme Manager", () => {
+  test("applyTheme applies the correct theme", async () => {
+    const themeId = "test-theme-123";
     await applyTheme(themeId);
     const current = await getCurrentTheme();
     expect(current.id).toBe(themeId);
   });
 
-  test('applyTheme throws error for invalid theme', async () => {
-    await expect(applyTheme('invalid-id')).rejects.toThrow();
+  test("applyTheme throws error for invalid theme", async () => {
+    await expect(applyTheme("invalid-id")).rejects.toThrow();
   });
 });
 ```
@@ -836,12 +881,14 @@ describe('Theme Manager', () => {
 **Scope:** Component interactions and workflows
 
 **What to test:**
+
 - Complete theme switching workflow
 - Group creation and management
 - Settings persistence
 - Data migration scenarios
 
 **Example scenarios:**
+
 1. Create group → Add themes → Switch theme → Verify persistence
 2. Import data → Verify all groups loaded → Export data → Verify match
 3. Delete group → Verify themes preserved → Verify active theme handling
@@ -849,6 +896,7 @@ describe('Theme Manager', () => {
 ### 11.3 Manual Testing Checklist
 
 **UI/UX Testing:**
+
 - [ ] All buttons clickable and responsive
 - [ ] Dropdowns work correctly
 - [ ] Forms validate input
@@ -857,6 +905,7 @@ describe('Theme Manager', () => {
 - [ ] Animations smooth (if enabled)
 
 **Functionality Testing:**
+
 - [ ] Create theme group
 - [ ] Add theme to group
 - [ ] Remove theme from group
@@ -866,18 +915,21 @@ describe('Theme Manager', () => {
 - [ ] Settings persist after browser restart
 
 **Cross-Browser Testing:**
+
 - [ ] Firefox ESR (latest)
 - [ ] Firefox Stable (latest)
 - [ ] Firefox Beta (latest)
 - [ ] Different operating systems (Windows, macOS, Linux)
 
 **Performance Testing:**
+
 - [ ] Popup loads quickly
 - [ ] Theme switches quickly
 - [ ] No memory leaks
 - [ ] Storage within limits
 
 **Edge Cases:**
+
 - [ ] Empty groups
 - [ ] Maximum groups/themes
 - [ ] Very long names
@@ -888,12 +940,14 @@ describe('Theme Manager', () => {
 ### 11.4 CI/CD Testing
 
 **Automated on every PR:**
+
 - ✅ ESLint (code quality)
 - ✅ Unit tests pass
 - ✅ Build succeeds
 - ✅ No console errors
 
 **Automated on main branch:**
+
 - ✅ All tests pass
 - ✅ Create distribution package
 - ✅ Version bump (if needed)
@@ -905,9 +959,11 @@ describe('Theme Manager', () => {
 ### 12.1 Development Phases
 
 #### **Phase 1: Foundation (Week 1-2)**
+
 **Status:** [In Progress / Complete]
 
 **Goals:**
+
 - [x] Project setup
 - [x] Git workflow established
 - [x] CI/CD pipeline configured
@@ -915,6 +971,7 @@ describe('Theme Manager', () => {
 - [ ] Manifest.json configured
 
 **Deliverables:**
+
 - Working development environment
 - GitHub repository with protections
 - Basic extension scaffold
@@ -922,9 +979,11 @@ describe('Theme Manager', () => {
 ---
 
 #### **Phase 2: Core Development (Week 3-4)**
+
 **Status:** [Not Started]
 
 **Goals:**
+
 - [ ] Implement theme manager
 - [ ] Implement group manager
 - [ ] Implement storage handler
@@ -932,6 +991,7 @@ describe('Theme Manager', () => {
 - [ ] Unit tests for core functions
 
 **Deliverables:**
+
 - Working theme switching
 - Working group management
 - Data persistence
@@ -940,9 +1000,11 @@ describe('Theme Manager', () => {
 ---
 
 #### **Phase 3: UI/UX (Week 5-6)**
+
 **Status:** [Not Started]
 
 **Goals:**
+
 - [ ] Complete popup interface
 - [ ] Create settings page
 - [ ] Implement theme previews
@@ -950,6 +1012,7 @@ describe('Theme Manager', () => {
 - [ ] Accessibility testing
 
 **Deliverables:**
+
 - Polished user interface
 - Full feature set working
 - Accessible design
@@ -957,9 +1020,11 @@ describe('Theme Manager', () => {
 ---
 
 #### **Phase 4: Testing & Polish (Week 7)**
+
 **Status:** [Not Started]
 
 **Goals:**
+
 - [ ] Integration testing
 - [ ] Bug fixing
 - [ ] Performance optimization
@@ -967,6 +1032,7 @@ describe('Theme Manager', () => {
 - [ ] Documentation complete
 
 **Deliverables:**
+
 - Zero critical bugs
 - Performance targets met
 - Complete documentation
@@ -974,9 +1040,11 @@ describe('Theme Manager', () => {
 ---
 
 #### **Phase 5: Release Preparation (Week 8)**
+
 **Status:** [Not Started]
 
 **Goals:**
+
 - [ ] Final testing
 - [ ] Create promotional materials
 - [ ] Prepare Firefox Add-ons submission
@@ -984,6 +1052,7 @@ describe('Theme Manager', () => {
 - [ ] Release notes written
 
 **Deliverables:**
+
 - Release candidate
 - All documentation
 - Submission ready
@@ -993,6 +1062,7 @@ describe('Theme Manager', () => {
 ### 12.2 Release Checklist
 
 **Pre-Release:**
+
 - [ ] All tests passing
 - [ ] No known critical bugs
 - [ ] Performance targets met
@@ -1002,6 +1072,7 @@ describe('Theme Manager', () => {
 - [ ] License file included
 
 **Firefox Add-ons Submission:**
+
 - [ ] Manifest.json validated
 - [ ] Extension signed
 - [ ] Privacy policy uploaded
@@ -1011,6 +1082,7 @@ describe('Theme Manager', () => {
 - [ ] Release notes written
 
 **Post-Release:**
+
 - [ ] Monitor for bug reports
 - [ ] Respond to user feedback
 - [ ] Plan next version features
@@ -1023,6 +1095,7 @@ describe('Theme Manager', () => {
 ### 13.1 Version 1.0 (MVP - Current Focus)
 
 **Core Features:**
+
 - [x] Basic theme grouping
 - [ ] Theme switching
 - [ ] Local storage
@@ -1030,6 +1103,7 @@ describe('Theme Manager', () => {
 - [ ] Group management
 
 **Success Criteria:**
+
 - Users can create groups
 - Users can switch themes
 - Data persists across sessions
@@ -1039,6 +1113,7 @@ describe('Theme Manager', () => {
 ### 13.2 Version 1.1 (Next Release)
 
 **Planned Features:**
+
 - [ ] Import/export configurations
 - [ ] Theme previews/thumbnails
 - [ ] Keyboard shortcuts
@@ -1053,6 +1128,7 @@ describe('Theme Manager', () => {
 ### 13.3 Version 2.0 (Future)
 
 **Potential Features:**
+
 - [ ] Cloud sync across devices
 - [ ] Scheduled theme switching (time-based)
 - [ ] Context-aware switching (website-based)
@@ -1069,10 +1145,10 @@ describe('Theme Manager', () => {
 
 [Track user-requested features here]
 
-| Feature | Votes | Priority | Status |
-|---------|-------|----------|--------|
-| [Example: Dark mode for popup] | 15 | High | Planned for v1.1 |
-| [Example: Theme sharing] | 8 | Medium | Under consideration |
+| Feature                        | Votes | Priority | Status              |
+| ------------------------------ | ----- | -------- | ------------------- |
+| [Example: Dark mode for popup] | 15    | High     | Planned for v1.1    |
+| [Example: Theme sharing]       | 8     | Medium   | Under consideration |
 
 ---
 
@@ -1080,14 +1156,14 @@ describe('Theme Manager', () => {
 
 ### 14.1 Team Structure
 
-| Team Member | Primary Role | Responsibilities | Secondary Role |
-|-------------|-------------|------------------|----------------|
-| [Name] | **Frontend Lead** | - UI/UX implementation<br>- Popup interface<br>- Settings page | Code review |
-| [Name] | **Backend Lead** | - Theme manager<br>- Group manager<br>- Core logic | Testing |
-| [Name] | **Storage/Data Lead** | - Storage handler<br>- Data models<br>- State management | API design |
-| [Name] | **Integration Lead** | - Firefox API integration<br>- Manifest configuration<br>- Extension lifecycle | Documentation |
-| [Name] | **QA Lead** | - Testing strategy<br>- Manual testing<br>- Bug tracking | CI/CD |
-| [Name] | **Documentation Lead** | - System design doc<br>- User guide<br>- API documentation | Project management |
+| Team Member | Primary Role           | Responsibilities                                                               | Secondary Role     |
+| ----------- | ---------------------- | ------------------------------------------------------------------------------ | ------------------ |
+| [Name]      | **Frontend Lead**      | - UI/UX implementation<br>- Popup interface<br>- Settings page                 | Code review        |
+| [Name]      | **Backend Lead**       | - Theme manager<br>- Group manager<br>- Core logic                             | Testing            |
+| [Name]      | **Storage/Data Lead**  | - Storage handler<br>- Data models<br>- State management                       | API design         |
+| [Name]      | **Integration Lead**   | - Firefox API integration<br>- Manifest configuration<br>- Extension lifecycle | Documentation      |
+| [Name]      | **QA Lead**            | - Testing strategy<br>- Manual testing<br>- Bug tracking                       | CI/CD              |
+| [Name]      | **Documentation Lead** | - System design doc<br>- User guide<br>- API documentation                     | Project management |
 
 ### 14.2 Communication Channels
 
@@ -1106,6 +1182,7 @@ describe('Theme Manager', () => {
 5. **Merge** when approved and CI passes
 
 **Review Checklist:**
+
 - [ ] Code follows style guide
 - [ ] Tests included and passing
 - [ ] Documentation updated
@@ -1153,22 +1230,24 @@ Week 8: Release Preparation
 
 ### 15.2 Key Milestones
 
-| Milestone | Target Date | Status | Completion Criteria |
-|-----------|-------------|--------|---------------------|
-| Project Setup Complete | [Date] | ✅ Complete | Repo set up, CI/CD working |
-| Core Logic Complete | [Date] | ⏳ In Progress | Theme switching works |
-| UI Prototype | [Date] | 🔜 Upcoming | Basic popup functional |
-| Feature Complete | [Date] | 🔜 Upcoming | All v1.0 features working |
-| Testing Complete | [Date] | 🔜 Upcoming | Zero critical bugs |
-| Release | [Date] | 🔜 Upcoming | Published to Firefox Add-ons |
+| Milestone              | Target Date | Status         | Completion Criteria          |
+| ---------------------- | ----------- | -------------- | ---------------------------- |
+| Project Setup Complete | [Date]      | ✅ Complete    | Repo set up, CI/CD working   |
+| Core Logic Complete    | [Date]      | ⏳ In Progress | Theme switching works        |
+| UI Prototype           | [Date]      | 🔜 Upcoming    | Basic popup functional       |
+| Feature Complete       | [Date]      | 🔜 Upcoming    | All v1.0 features working    |
+| Testing Complete       | [Date]      | 🔜 Upcoming    | Zero critical bugs           |
+| Release                | [Date]      | 🔜 Upcoming    | Published to Firefox Add-ons |
 
 ### 15.3 Dependencies & Blockers
 
 **Current Blockers:**
+
 - [List any current blockers]
 - [e.g., "Waiting for Firefox theme API documentation clarification"]
 
 **Upcoming Dependencies:**
+
 - [List dependencies for future phases]
 - [e.g., "Need design mockups before starting settings page"]
 
@@ -1178,54 +1257,57 @@ Week 8: Release Preparation
 
 ### 16.1 External Dependencies
 
-| Dependency | Type | Risk Level | Mitigation |
-|------------|------|------------|------------|
-| Firefox WebExtensions API | Critical | Low | Use stable API versions, monitor changelog |
-| npm packages (ESLint, JSDoc) | Development | Low | Pin versions, regular updates |
-| GitHub Actions | CI/CD | Low | Have manual testing fallback |
-| Node.js 24.x | Development | Low | Document required version clearly |
+| Dependency                   | Type        | Risk Level | Mitigation                                 |
+| ---------------------------- | ----------- | ---------- | ------------------------------------------ |
+| Firefox WebExtensions API    | Critical    | Low        | Use stable API versions, monitor changelog |
+| npm packages (ESLint, JSDoc) | Development | Low        | Pin versions, regular updates              |
+| GitHub Actions               | CI/CD       | Low        | Have manual testing fallback               |
+| Node.js 24.x                 | Development | Low        | Document required version clearly          |
 
 ### 16.2 Risk Assessment
 
 #### **Technical Risks**
 
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|-----------|--------|---------------------|
-| Firefox API breaking changes | Low | High | - Monitor Firefox release notes<br>- Test on beta versions<br>- Version compatibility checks |
-| Storage quota limitations | Medium | Medium | - Implement storage monitoring<br>- Data cleanup features<br>- Warn users at 80% capacity |
-| Performance degradation with large datasets | Medium | Medium | - Set recommended limits<br>- Implement pagination<br>- Performance testing |
-| Browser compatibility issues | Low | High | - Test on multiple Firefox versions<br>- Document minimum version |
+| Risk                                        | Likelihood | Impact | Mitigation Strategy                                                                          |
+| ------------------------------------------- | ---------- | ------ | -------------------------------------------------------------------------------------------- |
+| Firefox API breaking changes                | Low        | High   | - Monitor Firefox release notes<br>- Test on beta versions<br>- Version compatibility checks |
+| Storage quota limitations                   | Medium     | Medium | - Implement storage monitoring<br>- Data cleanup features<br>- Warn users at 80% capacity    |
+| Performance degradation with large datasets | Medium     | Medium | - Set recommended limits<br>- Implement pagination<br>- Performance testing                  |
+| Browser compatibility issues                | Low        | High   | - Test on multiple Firefox versions<br>- Document minimum version                            |
 
 #### **Project Risks**
 
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|-----------|--------|---------------------|
-| Team member unavailability | Medium | Medium | - Clear documentation<br>- Knowledge sharing<br>- Pair programming |
-| Scope creep | High | Medium | - Stick to MVP features<br>- Track future features separately<br>- Regular scope reviews |
-| Timeline delays | Medium | Medium | - Buffer time in schedule<br>- Prioritize features<br>- Regular progress checks |
-| Merge conflicts / Git issues | Medium | Low | - Follow Git workflow<br>- Frequent merges<br>- Clear branching strategy |
+| Risk                         | Likelihood | Impact | Mitigation Strategy                                                                      |
+| ---------------------------- | ---------- | ------ | ---------------------------------------------------------------------------------------- |
+| Team member unavailability   | Medium     | Medium | - Clear documentation<br>- Knowledge sharing<br>- Pair programming                       |
+| Scope creep                  | High       | Medium | - Stick to MVP features<br>- Track future features separately<br>- Regular scope reviews |
+| Timeline delays              | Medium     | Medium | - Buffer time in schedule<br>- Prioritize features<br>- Regular progress checks          |
+| Merge conflicts / Git issues | Medium     | Low    | - Follow Git workflow<br>- Frequent merges<br>- Clear branching strategy                 |
 
 #### **User Adoption Risks**
 
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|-----------|--------|---------------------|
-| Low user interest | Low | High | - Clear value proposition<br>- Good documentation<br>- Promote in Firefox communities |
-| Competition from similar extensions | Medium | Medium | - Unique features<br>- Better UX<br>- Active maintenance |
-| Negative reviews due to bugs | Medium | High | - Thorough testing<br>- Quick bug fixes<br>- Responsive support |
+| Risk                                | Likelihood | Impact | Mitigation Strategy                                                                   |
+| ----------------------------------- | ---------- | ------ | ------------------------------------------------------------------------------------- |
+| Low user interest                   | Low        | High   | - Clear value proposition<br>- Good documentation<br>- Promote in Firefox communities |
+| Competition from similar extensions | Medium     | Medium | - Unique features<br>- Better UX<br>- Active maintenance                              |
+| Negative reviews due to bugs        | Medium     | High   | - Thorough testing<br>- Quick bug fixes<br>- Responsive support                       |
 
 ### 16.3 Contingency Plans
 
 **If timeline slips:**
+
 - Reduce scope to essential features only
 - Extend timeline with team agreement
 - Increase team communication frequency
 
 **If critical team member leaves:**
+
 - Cross-train team members
 - Maintain thorough documentation
 - Redistribute responsibilities
 
 **If Firefox API changes:**
+
 - Quickly assess impact
 - Implement workarounds
 - Communicate with users about updates needed
@@ -1258,9 +1340,9 @@ Week 8: Release Preparation
 ### 17.4 Internal Documentation
 
 - [Git Workflow Guide](./GIT_WORKFLOW.md)
-- [API Documentation](./API_DOCUMENTATION.md) *(to be created)*
-- [User Guide](./USER_GUIDE.md) *(to be created)*
-- [Contributing Guidelines](./CONTRIBUTING.md) *(to be created)*
+- [API Documentation](./API_DOCUMENTATION.md) _(to be created)_
+- [User Guide](./USER_GUIDE.md) _(to be created)_
+- [Contributing Guidelines](./CONTRIBUTING.md) _(to be created)_
 
 ### 17.5 Community & Support
 
@@ -1274,51 +1356,51 @@ Week 8: Release Preparation
 
 ### A. Glossary
 
-| Term | Definition |
-|------|------------|
-| **Theme** | A visual skin that changes Firefox's appearance |
-| **Theme Group** | A collection of related themes organized together |
-| **WebExtension** | Firefox's standard for browser extensions |
-| **Manifest** | Configuration file describing the extension |
-| **Popup** | Small window that appears when clicking extension icon |
-| **Background Script** | Script that runs in the background of the browser |
-| **Storage API** | Firefox API for storing extension data locally |
+| Term                  | Definition                                             |
+| --------------------- | ------------------------------------------------------ |
+| **Theme**             | A visual skin that changes Firefox's appearance        |
+| **Theme Group**       | A collection of related themes organized together      |
+| **WebExtension**      | Firefox's standard for browser extensions              |
+| **Manifest**          | Configuration file describing the extension            |
+| **Popup**             | Small window that appears when clicking extension icon |
+| **Background Script** | Script that runs in the background of the browser      |
+| **Storage API**       | Firefox API for storing extension data locally         |
 
 ### B. Acronyms
 
-| Acronym | Full Form |
-|---------|-----------|
-| **API** | Application Programming Interface |
+| Acronym   | Full Form                                      |
+| --------- | ---------------------------------------------- |
+| **API**   | Application Programming Interface              |
 | **CI/CD** | Continuous Integration / Continuous Deployment |
-| **ESR** | Extended Support Release |
-| **JSON** | JavaScript Object Notation |
-| **MVP** | Minimum Viable Product |
-| **PR** | Pull Request |
-| **QA** | Quality Assurance |
-| **UI** | User Interface |
-| **UX** | User Experience |
-| **UUID** | Universally Unique Identifier |
+| **ESR**   | Extended Support Release                       |
+| **JSON**  | JavaScript Object Notation                     |
+| **MVP**   | Minimum Viable Product                         |
+| **PR**    | Pull Request                                   |
+| **QA**    | Quality Assurance                              |
+| **UI**    | User Interface                                 |
+| **UX**    | User Experience                                |
+| **UUID**  | Universally Unique Identifier                  |
 
 ### C. Change Log
 
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0 | [Date] | [Team] | Initial system design document created |
-| | | | |
+| Version | Date   | Author | Changes                                |
+| ------- | ------ | ------ | -------------------------------------- |
+| 1.0     | [Date] | [Team] | Initial system design document created |
+|         |        |        |                                        |
 
 ---
 
 ## Document Approval
 
-| Role | Name | Signature | Date |
-|------|------|-----------|------|
-| **Project Lead** | [Name] | | [Date] |
-| **Tech Lead** | [Name] | | [Date] |
-| **QA Lead** | [Name] | | [Date] |
-| **Team Review** | All Members | | [Date] |
+| Role             | Name        | Signature | Date   |
+| ---------------- | ----------- | --------- | ------ |
+| **Project Lead** | [Name]      |           | [Date] |
+| **Tech Lead**    | [Name]      |           | [Date] |
+| **QA Lead**      | [Name]      |           | [Date] |
+| **Team Review**  | All Members |           | [Date] |
 
 ---
 
 **End of Document**
 
-*For questions or updates to this document, contact: [Team Lead Name/Email]*
+_For questions or updates to this document, contact: [Team Lead Name/Email]_
