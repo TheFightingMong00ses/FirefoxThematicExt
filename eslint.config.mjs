@@ -10,7 +10,10 @@ export default defineConfig([
     plugins: { js },
     extends: ["js/recommended"],
     languageOptions: {
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        browser: "readonly", // Firefox WebExtension API
+      },
       ecmaVersion: 2022,
     },
   },
@@ -19,12 +22,30 @@ export default defineConfig([
   {
     files: [
       "test/**/*.{js,mjs,cjs}",
+      "tests/**/*.{js,mjs,cjs}",
       "**/*.test.{js,mjs,cjs}",
       "**/*.spec.{js,mjs,cjs}",
     ],
     languageOptions: {
+      sourceType: "commonjs", // Tests use CommonJS (require/module.exports)
       globals: {
         ...globals.mocha,
+        ...globals.node,
+        // Mocha globals
+        describe: "readonly",
+        it: "readonly",
+        before: "readonly",
+        after: "readonly",
+        beforeEach: "readonly",
+        afterEach: "readonly",
+        // Chai globals (from setup.js)
+        expect: "readonly",
+        assert: "readonly",
+        chai: "readonly",
+        // Sinon globals (from setup.js)
+        sinon: "readonly",
+        // Browser API (from setup.js)
+        browser: "readonly",
       },
     },
   },

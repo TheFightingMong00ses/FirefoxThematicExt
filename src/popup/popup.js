@@ -1,4 +1,3 @@
-/* global browser */
 "use strict";
 
 // Wait for the DOM to be fully loaded

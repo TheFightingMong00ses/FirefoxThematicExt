@@ -1,4 +1,3 @@
-/* global browser */
 "use strict";
 
 // Listen for messages from popup.js
