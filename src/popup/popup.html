@@ -11,6 +11,12 @@
         <h1>Theme Manager</h1>
       </header>
 
+      <!-- Mode toggle -->
+      <div class="mode-toggle">
+        <button class="toggle-btn active" id="solid-mode">Solid</button>
+        <button class="toggle-btn" id="gradient-mode">Gradient</button>
+      </div>
+
       <div class="theme-status">
         <p>Current Theme: <span id="current-theme">Default</span></p>
       </div>
@@ -19,11 +25,35 @@
         <button class="button" id="dark-theme">Dark Mode</button>
         <button class="button" id="light-theme">Light Mode</button>
         <button class="button" id="random-theme">Surprise Me</button>
+        <button class="button" id="create-group">Create Group</button>
+        <button class="button" id="add-theme">Add Theme</button>
+        <button class="button" id="remove-theme">Remove Theme</button>
+        <button class="button" id="delete-group">Delete Group</button>
+      </div>
+
+      <!-- Groups display section -->
+      <div class="groups-section">
+        <h2 class="groups-header">My Groups</h2>
+        <div id="groups-list">
+          <p class="no-groups-msg">No groups yet. Create one above!</p>
+        </div>
       </div>
 
       <footer>
-        <!-- This is a comment <a href="#" id="open-settings">⚙️ Settings</a>-->
+        <!-- <a href="#" id="open-settings">⚙️ Settings</a> -->
       </footer>
+    </div>
+
+    <!-- Custom modal overlay -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+      <div class="modal-box">
+        <p id="modal-message"></p>
+        <input type="text" id="modal-input" class="modal-input hidden" placeholder=""/>
+        <div class="modal-buttons">
+          <button class="modal-btn confirm" id="modal-confirm">OK</button>
+          <button class="modal-btn cancel hidden" id="modal-cancel">Cancel</button>
+        </div>
+      </div>
     </div>
     <script src="popup.js"></script>
   </body>
