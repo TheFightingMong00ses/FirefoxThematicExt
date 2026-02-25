@@ -16,9 +16,6 @@
   },
 
   "background": {
-    "scripts": [
-      "src/background/group_class.js",
-      "src/background/mongoose.js"
-    ]
+    "scripts": ["src/background/group_class.js", "src/background/mongoose.js"]
   }
 }

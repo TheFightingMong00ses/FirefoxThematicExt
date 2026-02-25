@@ -1,6 +1,6 @@
 {
-  "require": ["tests/setup.js"],
-  "spec": ["tests/**/*.test.js", "src/**/*.test.js"],
+  "require": ["test/setup.js"],
+  "spec": ["test/**/*.test.js", "src/**/*.test.js"],
   "recursive": true,
   "timeout": 5000,
   "color": true,

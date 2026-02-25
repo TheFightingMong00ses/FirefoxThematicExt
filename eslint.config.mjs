@@ -13,6 +13,7 @@ export default defineConfig([
       globals: {
         ...globals.browser,
         browser: "readonly", // Firefox WebExtension API
+        Group: "readonly", // Group class from group_class.js
       },
       ecmaVersion: 2022,
     },
