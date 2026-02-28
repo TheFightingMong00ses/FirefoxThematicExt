@@ -38,6 +38,38 @@ async function saveGroupsToStorage() {
 // Load groups on startup
 loadGroupsFromStorage();
 
+// Apply default theme on browser startup
+browser.runtime.onStartup.addListener(async () => {
+  try {
+    const result = await browser.storage.local.get("popupSettings");
+    const settings = result.popupSettings || {};
+    if (settings.defaultTheme) {
+      const dt = settings.defaultTheme;
+      // Re-use the changeTheme path by sending an internal message
+      browser.runtime
+        .sendMessage({
+          action: "changeTheme",
+          theme: dt.themeId,
+          customColor: dt.customColor || null,
+          gradientColor1: dt.gradientColor1 || null,
+          gradientColor2: dt.gradientColor2 || null,
+        })
+        .catch(() => {});
+      // Also persist as currentTheme so popup shows the right name
+      await browser.storage.local.set({
+        currentTheme: dt.themeId,
+        currentThemeName: dt.name,
+        currentCustomColor: dt.customColor || null,
+        currentGradientColor1: dt.gradientColor1 || null,
+        currentGradientColor2: dt.gradientColor2 || null,
+      });
+      console.log("Default theme applied on startup:", dt.name);
+    }
+  } catch (e) {
+    console.error("Error applying default theme on startup:", e);
+  }
+});
+
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
   console.log("Message received:", request);
 
