@@ -9,7 +9,9 @@
     <div id="popup-content">
       <header>
         <h1>Theme Manager</h1>
-        <button class="gear-btn" id="settings-btn" title="Settings">&#9881;</button>
+        <button class="gear-btn" id="settings-btn" title="Settings">
+          &#9881;
+        </button>
       </header>
 
       <!-- Default theme reminder banner (hidden once set or dismissed) -->
@@ -17,7 +19,9 @@
         <button class="banner-link" id="banner-link-btn">
           ‼️ Select Default Theme ‼️
         </button>
-        <button class="banner-dismiss" id="banner-dismiss-btn" title="Dismiss">✕</button>
+        <button class="banner-dismiss" id="banner-dismiss-btn" title="Dismiss">
+          ✕
+        </button>
       </div>
 
       <div class="mode-toggle" id="mode-toggle-row">
@@ -34,7 +38,8 @@
         <button class="button" id="light-theme">Light Mode</button>
         <button class="button" id="random-theme">Surprise Me</button>
         <button class="button" id="edit-groups-btn">
-          Edit Groups <span id="group-count-badge" class="count-badge hidden"></span>
+          Edit Groups
+          <span id="group-count-badge" class="count-badge hidden"></span>
         </button>
       </div>
       <footer></footer>
@@ -47,21 +52,37 @@
         <h2 class="panel-title">Settings</h2>
       </div>
       <div class="settings-body">
-
         <!-- Default Theme -->
         <div class="settings-section">
           <h3 class="settings-section-title">Startup Behaviour</h3>
           <div class="default-theme-row">
             <div class="settings-row-info">
               <span class="settings-row-label">Default Theme</span>
-              <span class="settings-row-sub" id="default-theme-display">None selected</span>
+              <span class="settings-row-sub" id="default-theme-display"
+                >None selected</span
+              >
             </div>
-            <button class="button" id="select-default-theme-btn" style="width:auto;padding:7px 12px;font-size:var(--font-sm)">Select</button>
+            <button
+              class="button"
+              id="select-default-theme-btn"
+              style="width: auto; padding: 7px 12px; font-size: var(--font-sm)"
+            >
+              Select
+            </button>
           </div>
-          <div class="settings-row" style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">
+          <div
+            class="settings-row"
+            style="
+              margin-top: 10px;
+              padding-top: 10px;
+              border-top: 1px solid var(--border);
+            "
+          >
             <div class="settings-row-info">
               <span class="settings-row-label">Turn off Reminder</span>
-              <span class="settings-row-sub">Hide the banner on the main page</span>
+              <span class="settings-row-sub"
+                >Hide the banner on the main page</span
+              >
             </div>
             <label class="toggle-switch">
               <input type="checkbox" id="banner-dismissed-toggle" />
@@ -104,26 +125,116 @@
           <h3 class="settings-section-title">Accent Color</h3>
           <div class="accent-grid" id="accent-control">
             <!-- Row 1: Blues & Purples -->
-            <button class="accent-swatch active" data-color="#4a90e2" style="background:#4a90e2" title="Sky Blue"></button>
-            <button class="accent-swatch" data-color="#1565c0" style="background:#1565c0" title="Royal Blue"></button>
-            <button class="accent-swatch" data-color="#0097a7" style="background:#0097a7" title="Cyan"></button>
-            <button class="accent-swatch" data-color="#7b1fa2" style="background:#7b1fa2" title="Purple"></button>
-            <button class="accent-swatch" data-color="#8e44ad" style="background:#8e44ad" title="Violet"></button>
-            <button class="accent-swatch" data-color="#5c6bc0" style="background:#5c6bc0" title="Indigo"></button>
+            <button
+              class="accent-swatch active"
+              data-color="#4a90e2"
+              style="background: #4a90e2"
+              title="Sky Blue"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#1565c0"
+              style="background: #1565c0"
+              title="Royal Blue"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#0097a7"
+              style="background: #0097a7"
+              title="Cyan"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#7b1fa2"
+              style="background: #7b1fa2"
+              title="Purple"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#8e44ad"
+              style="background: #8e44ad"
+              title="Violet"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#5c6bc0"
+              style="background: #5c6bc0"
+              title="Indigo"
+            ></button>
             <!-- Row 2: Greens & Teals -->
-            <button class="accent-swatch" data-color="#27ae60" style="background:#27ae60" title="Emerald"></button>
-            <button class="accent-swatch" data-color="#2e7d32" style="background:#2e7d32" title="Forest Green"></button>
-            <button class="accent-swatch" data-color="#16a085" style="background:#16a085" title="Teal"></button>
-            <button class="accent-swatch" data-color="#00796b" style="background:#00796b" title="Dark Teal"></button>
-            <button class="accent-swatch" data-color="#558b2f" style="background:#558b2f" title="Olive"></button>
-            <button class="accent-swatch" data-color="#80cbc4" style="background:#80cbc4" title="Mint"></button>
+            <button
+              class="accent-swatch"
+              data-color="#27ae60"
+              style="background: #27ae60"
+              title="Emerald"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#2e7d32"
+              style="background: #2e7d32"
+              title="Forest Green"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#16a085"
+              style="background: #16a085"
+              title="Teal"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#00796b"
+              style="background: #00796b"
+              title="Dark Teal"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#558b2f"
+              style="background: #558b2f"
+              title="Olive"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#80cbc4"
+              style="background: #80cbc4"
+              title="Mint"
+            ></button>
             <!-- Row 3: Warm colors -->
-            <button class="accent-swatch" data-color="#e53935" style="background:#e53935" title="Red"></button>
-            <button class="accent-swatch" data-color="#e2574a" style="background:#e2574a" title="Coral"></button>
-            <button class="accent-swatch" data-color="#e67e22" style="background:#e67e22" title="Orange"></button>
-            <button class="accent-swatch" data-color="#f9a825" style="background:#f9a825" title="Amber"></button>
-            <button class="accent-swatch" data-color="#c0392b" style="background:#c0392b" title="Crimson"></button>
-            <button class="accent-swatch" data-color="#ad1457" style="background:#ad1457" title="Rose"></button>
+            <button
+              class="accent-swatch"
+              data-color="#e53935"
+              style="background: #e53935"
+              title="Red"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#e2574a"
+              style="background: #e2574a"
+              title="Coral"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#e67e22"
+              style="background: #e67e22"
+              title="Orange"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#f9a825"
+              style="background: #f9a825"
+              title="Amber"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#c0392b"
+              style="background: #c0392b"
+              title="Crimson"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#ad1457"
+              style="background: #ad1457"
+              title="Rose"
+            ></button>
           </div>
         </div>
 
@@ -145,8 +256,12 @@
         <div class="settings-section">
           <div class="settings-row">
             <div class="settings-row-info">
-              <span class="settings-row-label">Show Solid / Gradient Toggle</span>
-              <span class="settings-row-sub">Hide if you only use one mode</span>
+              <span class="settings-row-label"
+                >Show Solid / Gradient Toggle</span
+              >
+              <span class="settings-row-sub"
+                >Hide if you only use one mode</span
+              >
             </div>
             <label class="toggle-switch">
               <input type="checkbox" id="show-mode-toggle" checked />
@@ -160,7 +275,9 @@
           <div class="settings-row">
             <div class="settings-row-info">
               <span class="settings-row-label">Apply Theme on Click</span>
-              <span class="settings-row-sub">Off = confirm before applying</span>
+              <span class="settings-row-sub"
+                >Off = confirm before applying</span
+              >
             </div>
             <label class="toggle-switch">
               <input type="checkbox" id="apply-on-click-toggle" checked />
@@ -174,7 +291,9 @@
           <div class="settings-row">
             <div class="settings-row-info">
               <span class="settings-row-label">Remember Last Group</span>
-              <span class="settings-row-sub">Re-open last group in Edit Groups</span>
+              <span class="settings-row-sub"
+                >Re-open last group in Edit Groups</span
+              >
             </div>
             <label class="toggle-switch">
               <input type="checkbox" id="remember-group-toggle" />
@@ -185,12 +304,14 @@
 
         <!-- Reset to Defaults -->
         <div class="settings-section">
-          <button class="button button-danger" id="reset-defaults-btn">Reset to Defaults</button>
+          <button class="button button-danger" id="reset-defaults-btn">
+            Reset to Defaults
+          </button>
         </div>
-
-      </div><!-- /.settings-body (main) -->
-
-    </div><!-- /.settings panel -->
+      </div>
+      <!-- /.settings-body (main) -->
+    </div>
+    <!-- /.settings panel -->
 
     <!-- ── Default theme: group list panel ── -->
     <div id="dt-view-groups" class="panel hidden">
@@ -201,7 +322,9 @@
       <p class="subview-hint">Choose a group, then pick a theme for startup.</p>
       <div id="dt-groups-list" class="dt-list"></div>
       <div class="dt-clear-row">
-        <button class="button button-secondary" id="dt-clear-btn">✕ Clear Default Theme</button>
+        <button class="button button-secondary" id="dt-clear-btn">
+          ✕ Clear Default Theme
+        </button>
       </div>
     </div>
 
@@ -231,9 +354,19 @@
           </div>
         </div>
         <div class="group-static-actions">
-          <button class="button" id="open-group-btn" disabled>Open Group</button>
-          <button class="button button-secondary" id="rename-group-btn" disabled>Rename Group</button>
-          <button class="button button-danger" id="remove-group-btn" disabled>Remove Group</button>
+          <button class="button" id="open-group-btn" disabled>
+            Open Group
+          </button>
+          <button
+            class="button button-secondary"
+            id="rename-group-btn"
+            disabled
+          >
+            Rename Group
+          </button>
+          <button class="button button-danger" id="remove-group-btn" disabled>
+            Remove Group
+          </button>
         </div>
       </div>
 
@@ -245,44 +378,99 @@
         <div id="apply-confirm-bar" class="apply-confirm-bar hidden">
           <span id="apply-confirm-name" class="apply-confirm-name"></span>
           <div class="apply-confirm-btns">
-            <button class="button" id="apply-confirm-yes" style="flex:1;padding:8px;font-size:12px">Apply</button>
-            <button class="button button-secondary" id="apply-confirm-no" style="flex:1;padding:8px;font-size:12px">Cancel</button>
+            <button
+              class="button"
+              id="apply-confirm-yes"
+              style="flex: 1; padding: 8px; font-size: 12px"
+            >
+              Apply
+            </button>
+            <button
+              class="button button-secondary"
+              id="apply-confirm-no"
+              style="flex: 1; padding: 8px; font-size: 12px"
+            >
+              Cancel
+            </button>
           </div>
         </div>
-        <button class="button button-secondary" id="detail-surprise-btn">🎲 Surprise Me</button>
+        <button class="button button-secondary" id="detail-surprise-btn">
+          🎲 Surprise Me
+        </button>
         <div class="detail-actions">
           <button class="button" id="detail-add-theme-btn">Add Theme</button>
-          <button class="button button-danger" id="detail-remove-theme-btn" disabled>Remove Theme</button>
+          <button
+            class="button button-danger"
+            id="detail-remove-theme-btn"
+            disabled
+          >
+            Remove Theme
+          </button>
         </div>
         <div class="detail-actions">
-          <button class="button button-secondary" id="detail-copy-theme-btn" disabled>Copy Theme</button>
-          <button class="button button-secondary" id="detail-move-theme-btn" disabled>Move Theme</button>
+          <button
+            class="button button-secondary"
+            id="detail-copy-theme-btn"
+            disabled
+          >
+            Copy Theme
+          </button>
+          <button
+            class="button button-secondary"
+            id="detail-move-theme-btn"
+            disabled
+          >
+            Move Theme
+          </button>
         </div>
         <div class="detail-actions">
-          <button class="button button-secondary" id="detail-edit-name-btn" disabled>Edit Name</button>
+          <button
+            class="button button-secondary"
+            id="detail-edit-name-btn"
+            disabled
+          >
+            Edit Name
+          </button>
         </div>
-        <button class="button button-secondary detail-back" id="detail-back-btn">&#8592; Back to Groups</button>
+        <button
+          class="button button-secondary detail-back"
+          id="detail-back-btn"
+        >
+          &#8592; Back to Groups
+        </button>
       </div>
 
       <div id="groups-view-transfer" class="groups-view hidden">
-        <p class="picker-label" id="transfer-title">Select a Group to Copy to</p>
+        <p class="picker-label" id="transfer-title">
+          Select a Group to Copy to
+        </p>
         <div id="transfer-picker-list" class="picker-list"></div>
         <div class="picker-actions">
-          <button class="button" id="confirm-transfer-btn" disabled>Confirm</button>
-          <button class="button button-secondary" id="cancel-transfer-btn">Cancel</button>
+          <button class="button" id="confirm-transfer-btn" disabled>
+            Confirm
+          </button>
+          <button class="button button-secondary" id="cancel-transfer-btn">
+            Cancel
+          </button>
         </div>
       </div>
-
     </div>
 
     <!-- Modal -->
     <div id="modal-overlay" class="modal-overlay hidden">
       <div class="modal-box">
         <p id="modal-message"></p>
-        <input type="text" id="modal-input" class="modal-input hidden" placeholder="" />
+        <input
+          type="text"
+          id="modal-input"
+          class="modal-input hidden"
+          placeholder=""
+        />
         <div class="modal-buttons">
           <button class="modal-btn confirm" id="modal-confirm">OK</button>
-          <button class="modal-btn cancel hidden" id="modal-cancel">Cancel</button>
+          <button class="modal-btn cancel hidden" id="modal-cancel">
+            Cancel
+          </button>
         </div>
       </div>
     </div>
