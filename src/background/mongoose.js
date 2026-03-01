@@ -10,10 +10,10 @@ const groups = [];
 async function loadGroupsFromStorage() {
   try {
     const result = await browser.storage.local.get("groups");
+    groups.length = 0; // Clear existing groups array before loading
     if (result.groups && Array.isArray(result.groups)) {
       result.groups.forEach((savedGroup) => {
-        const group = new Group(savedGroup.name);
-        group.groupList = savedGroup.groupList || [];
+        const group = new Group(savedGroup.name, savedGroup.groupList);
         groups.push(group);
       });
       console.log("Groups loaded from storage:", groups.length);
@@ -27,7 +27,10 @@ async function loadGroupsFromStorage() {
 async function saveGroupsToStorage() {
   try {
     await browser.storage.local.set({
-      groups: groups.map((g) => ({ name: g.name, groupList: g.groupList })),
+      groups: groups.map((g) => ({
+        name: g.name,
+        groupList: [...g.groupList],
+      })),
     });
     console.log("Groups saved to storage:", groups.length);
   } catch (error) {
@@ -71,18 +74,20 @@ browser.runtime.onStartup.addListener(async () => {
 });
 
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log("Message received:", request);
+  async () => {
+    console.log("Message received:", request);
 
-  if (request.action === "createGroup") {
-    const groupName = request.groupName;
-    const newGroup = new Group(groupName);
-    groups.push(newGroup);
-    console.log("Group created:", groupName);
-    console.log("Total groups:", groups.length);
-    saveGroupsToStorage();
-    sendResponse({ success: true });
-    return true;
-  }
+    if (request.action === "createGroup") {
+      const groupName = request.groupName;
+      const newGroup = new Group(groupName);
+      groups.push(newGroup);
+      console.log("Group created:", groupName);
+      console.log("Total groups:", groups.length);
+      await saveGroupsToStorage(); // Save after creating group
+      sendResponse({ success: true });
+      return true;
+    }
+  };
 
   if (request.action === "getGroups") {
     // Read directly from storage to avoid timing issues on startup
