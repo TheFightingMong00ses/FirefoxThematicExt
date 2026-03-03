@@ -23,21 +23,6 @@ async function loadGroupsFromStorage() {
   }
 }
 
-// Save current groups array to storage
-async function saveGroupsToStorage() {
-  try {
-    await browser.storage.local.set({
-      groups: groups.map((g) => ({
-        name: g.name,
-        groupList: [...g.groupList],
-      })),
-    });
-    console.log("Groups saved to storage:", groups.length);
-  } catch (error) {
-    console.error("Error saving groups to storage:", error);
-  }
-}
-
 // Load groups on startup
 loadGroupsFromStorage();
 
@@ -73,21 +58,20 @@ browser.runtime.onStartup.addListener(async () => {
   }
 });
 
-browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  async () => {
-    console.log("Message received:", request);
-
-    if (request.action === "createGroup") {
-      const groupName = request.groupName;
-      const newGroup = new Group(groupName);
-      groups.push(newGroup);
-      console.log("Group created:", groupName);
-      console.log("Total groups:", groups.length);
-      await saveGroupsToStorage(); // Save after creating group
-      sendResponse({ success: true });
-      return true;
-    }
-  };
+browser.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
+  console.log("Message received:", request);
+  if (request.action === "createGroup") {
+    const groupName = request.groupName;
+    const newGroup = new Group(groupName);
+    groups.push(newGroup);
+    console.log("Group created:", groupName);
+    console.log("Total groups:", groups.length);
+    const result = await browser.storage.local.get("groups");
+    const stored = result.groups || [];
+    stored.push({ name: groupName, groupList: [] });
+    await browser.storage.local.set({ groups: stored });
+    return { success: true };
+  }
 
   if (request.action === "getGroups") {
     // Read directly from storage to avoid timing issues on startup
@@ -110,7 +94,11 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (index > -1) {
       groups.splice(index, 1);
       console.log(groupToRemove, " was deleted");
-      saveGroupsToStorage();
+      const result = await browser.storage.local.get("groups");
+      const stored = result.groups || [];
+      const storedIndex = stored.findIndex((g) => g.name === groupToRemove);
+      if (storedIndex > -1) stored.splice(storedIndex, 1);
+      await browser.storage.local.set({ groups: stored });
       sendResponse({ success: true });
     } else {
       console.log("Entered name was not found");
@@ -118,7 +106,6 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     }
     return true;
   }
-
   if (request.action === "changeTheme") {
     const themeId = request.theme;
     console.log("Attempting to change theme to:", themeId);

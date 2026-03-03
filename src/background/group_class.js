@@ -4,7 +4,7 @@
 class Group {
   constructor(name, groupList) {
     this.name = name;
-    this.groupList = groupList ? [...groupList] : []; // list of theme IDs belonging to this group, create a new array
+    this.groupList = groupList ? [...groupList] : []; // list of theme IDs belonging to this group, restores themes if applicable
   }
 
   // Gets the current theme name from storage
