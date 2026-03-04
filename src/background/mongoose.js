@@ -375,4 +375,3 @@ function createCombinedGradientImage(color1, color2, screenWidth) {
 }
 
 console.log("Mongoose.js background script loaded");
-
