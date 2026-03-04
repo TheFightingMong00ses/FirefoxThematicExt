@@ -1,10 +1,10 @@
-/* eslint-disable no-unused-vars */
 "use strict";
 
+// eslint-disable-next-line no-unused-vars
 class Group {
-  constructor(name) {
+  constructor(name, groupList = []) {
     this.name = name;
-    this.groupList = []; // list of theme IDs belonging to this group
+    this.groupList = [...groupList]; // list of theme IDs belonging to this group
   }
 
   // Gets the current theme name from storage
