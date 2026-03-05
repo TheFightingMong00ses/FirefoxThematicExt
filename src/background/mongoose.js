@@ -1,11 +1,14 @@
 /* global browser Group */
 "use strict";
 
+
 // group_class.js is loaded before this script via manifest.json
 // so Group is available globally — no import needed for MV2
 
+
 // Storage for groups as array (in memory, mirrored to browser.storage.local)
 const groups = [];
+
 
 // Load groups from storage when background script starts
 async function loadGroupsFromStorage() {
@@ -24,6 +27,7 @@ async function loadGroupsFromStorage() {
   }
 }
 
+
 // Save current groups array to storage
 async function saveGroupsToStorage() {
   try {
@@ -36,11 +40,18 @@ async function saveGroupsToStorage() {
   }
 }
 
+
 // Load groups on startup
 loadGroupsFromStorage();
 
+
+
+
+
+
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
   console.log('Message received:', request);
+
 
   if (request.action === 'createGroup') {
     const groupName = request.groupName;
@@ -53,6 +64,7 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return true;
   }
 
+
   if (request.action === 'getGroups') {
     // Read directly from storage to avoid timing issues on startup
     browser.storage.local.get('groups').then((result) => {
@@ -64,6 +76,7 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     });
     return true;
   }
+
 
   if (request.action === 'deleteGroup') {
     const groupToRemove = request.deleteGroup;
@@ -80,9 +93,11 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return true;
   }
 
+
   if (request.action === "changeTheme") {
     const themeId = request.theme;
     console.log("Attempting to change theme to:", themeId);
+
 
     if (themeId === "dark") {
       // Update custom theme to dark colors first, then switch to managed dark theme
@@ -107,6 +122,7 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
         });
       return true;
 
+
     } else if (themeId === "light") {
       // Update custom theme to light colors first, then switch to managed light theme
       browser.theme.update({
@@ -129,6 +145,7 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
           sendResponse({ success: false, error: error.message });
         });
       return true;
+
 
     } else if (themeId === "random") {
       // Apply solid random color theme
@@ -155,13 +172,16 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
       });
       return true;
 
+
     } else if (themeId === "random-gradient") {
       // Apply custom gradient theme
       const color1 = request.gradientColor1;
       const color2 = request.gradientColor2;
 
+
       browser.windows.getCurrent().then((window) => {
         const screenWidth = window.width || 1920;
+
 
         createCombinedGradientImage(color1, color2, screenWidth).then((gradientUrl) => {
           browser.theme.update({
@@ -169,6 +189,7 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
               theme_frame: gradientUrl
             },
             colors: {
+              frame: color1,
               tab_background_text: "#ffffff",
               toolbar: "transparent",
               toolbar_text: "#ffffff",
@@ -190,6 +211,7 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
         });
       });
       return true;
+
 
     } else if (themeId === "blue") {
       browser.theme.update({
@@ -214,6 +236,7 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
       });
       return true;
 
+
     } else if (themeId === "purple") {
       // Update custom theme to purple colors first, then switch to managed purple theme
       browser.theme.update({
@@ -237,11 +260,13 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
         });
       return true;
 
+
     } else {
       // Random theme: pick one and apply directly (no recursive listener)
       const themes = ["dark", "light", "blue", "purple"];
       const randomTheme = themes[Math.floor(Math.random() * themes.length)];
       console.log("Random theme selected:", randomTheme);
+
 
       if (randomTheme === "blue") {
         browser.theme.update({
@@ -282,21 +307,27 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
+
 // Creates a tall gradient image covering both frame and toolbar areas
 function createCombinedGradientImage(color1, color2, screenWidth) {
   return new Promise((resolve) => {
     const width = screenWidth || 5000;
     const height = 500;
 
+
     const canvas = new OffscreenCanvas(width, height);
     const ctx = canvas.getContext('2d');
 
+
+    // Reverse gradient direction since theme_frame is right-anchored in Firefox
     const gradient = ctx.createLinearGradient(0, 0, width, 0);
     gradient.addColorStop(0, color1);
     gradient.addColorStop(1, color2);
 
+
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, width, height);
+
 
     canvas.convertToBlob({ type: 'image/png' }).then((blob) => {
       const reader = new FileReader();
@@ -307,5 +338,6 @@ function createCombinedGradientImage(color1, color2, screenWidth) {
     });
   });
 }
+
 
 console.log("Mongoose.js background script loaded");
