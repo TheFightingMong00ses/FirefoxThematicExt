@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const DEFAULT_SETTINGS = {
     size: "medium",
     scheme: "blue",
-    accent: "#4a90e2",
+    accent: "#5b8dd9",
     compact: false,
     showModeToggle: true,
     applyOnClick: true,
