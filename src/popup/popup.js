@@ -103,6 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let transferMode = null;
   let transferDestGroup = null;
   let pendingTheme = null;
+  let surpriseActive = false; // transient: true while dark mode or surprise theme is active
 
   // ── Init ──────────────────────────────────────────────────────────
   loadSettings().then(() => {
@@ -130,9 +131,10 @@ document.addEventListener("DOMContentLoaded", function () {
     body.classList.add(`size-${settings.size}`);
     body.classList.toggle("compact", settings.compact);
     body.classList.remove("scheme-blue", "scheme-dark", "scheme-light");
-    body.classList.add(`scheme-${settings.scheme}`);
+    // If a surprise theme is active, always show dark popup regardless of saved scheme
+    body.classList.add(surpriseActive ? "scheme-dark" : `scheme-${settings.scheme}`);
     // Only apply accent var when on blue scheme
-    if (settings.scheme === "blue") {
+    if (settings.scheme === "blue" && !surpriseActive) {
       document.documentElement.style.setProperty("--accent", settings.accent);
       document.documentElement.style.setProperty(
         "--accent-dark",
@@ -416,11 +418,19 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // ── Theme buttons ─────────────────────────────────────────────────
-  darkThemeBtn.addEventListener("click", () => applyTheme("dark", "Dark Mode"));
-  lightThemeBtn.addEventListener("click", () =>
-    applyTheme("light", "Light Mode"),
-  );
+  darkThemeBtn.addEventListener("click", () => {
+    surpriseActive = true;
+    applySettings();
+    applyTheme("dark", "Dark Mode");
+  });
+  lightThemeBtn.addEventListener("click", () => {
+    surpriseActive = false;
+    applySettings();
+    applyTheme("light", "Light Mode");
+  });
   randomThemeBtn.addEventListener("click", () => {
+    surpriseActive = true;
+    applySettings();
     if (isGradientMode) {
       const c1 = generateRandomColor(),
         c2 = generateRandomColor();
@@ -529,6 +539,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ── Detail: Surprise Me ──────────────────────────────────────────
   detailSurpriseBtn.addEventListener("click", () => {
+    surpriseActive = true;
+    applySettings();
     if (isGradientMode) {
       const c1 = generateRandomColor(),
         c2 = generateRandomColor();
@@ -963,6 +975,7 @@ document.addEventListener("DOMContentLoaded", function () {
         currentCustomColor: customColor || null,
         currentGradientColor1: gradientColor1 || null,
         currentGradientColor2: gradientColor2 || null,
+        popupForceDark: themeId !== "light",
       })
       .then(() => {
         currentThemeDisplay.textContent = themeName;
@@ -978,8 +991,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function loadCurrentTheme() {
-    browser.storage.local.get("currentThemeName").then((r) => {
+    browser.storage.local.get(["currentThemeName", "popupForceDark"]).then((r) => {
       currentThemeDisplay.textContent = r.currentThemeName || "Default";
+      surpriseActive = r.popupForceDark === true;
+      applySettings();
     });
   }
   function saveMode(mode) {
