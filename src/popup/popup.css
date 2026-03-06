@@ -554,18 +554,22 @@ body.scheme-light .theme-status p::before {
 }
 .button:disabled { opacity: 0.32; cursor: not-allowed; }
 
-/* ── Primary (Dark / Light Mode buttons) ── */
+/* ── Primary (Dark / Light Mode buttons) — accent outlined, no fill ── */
 .btn-primary {
-  background: var(--btn-bg);
-  border-color: var(--border-accent);
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-left: 3px solid var(--accent);
 }
+.btn-primary::before { background: var(--accent-bright); }
 .btn-primary:hover:not(:disabled) {
-  background: var(--btn-hover-bg);
+  background: var(--accent-glow);
+  color: var(--accent);
   border-color: var(--accent);
   box-shadow: 0 2px 14px var(--shadow-accent), -2px 0 10px var(--accent-glow);
 }
 
-/* ── Surprise Me — gold outlined ── */
+/* ── Surprise Me — gold outlined (unchanged) ── */
 .btn-surprise {
   background: transparent;
   color: var(--gold-dark);
@@ -594,22 +598,25 @@ body.scheme-light .btn-surprise:hover:not(:disabled) {
   box-shadow: none;
 }
 
-/* ── Edit Groups — ghost ── */
+/* ── Edit Groups — accent trim like primary ── */
 #edit-groups-btn {
   background: transparent;
-  color: var(--text-sub);
-  border: 1px solid var(--border);
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-left: 3px solid var(--accent);
+  opacity: 0.7;
 }
-#edit-groups-btn::before { background: var(--text-muted); }
+#edit-groups-btn::before { background: var(--accent-bright); }
 #edit-groups-btn:hover:not(:disabled) {
-  background: var(--surface);
-  color: var(--text);
-  border-color: var(--text-muted);
-  box-shadow: 0 2px 8px var(--shadow);
+  background: var(--accent-glow);
+  color: var(--accent);
+  border-color: var(--accent);
+  opacity: 1;
+  box-shadow: 0 2px 8px var(--shadow-accent);
 }
 
 body.scheme-light .button { border-color: var(--border); }
-body.scheme-light .btn-primary { border-color: var(--border-accent); }
+body.scheme-light .btn-primary { border-color: var(--accent); border-left-color: var(--accent); }
 
 /* Secondary (panels) */
 .button-secondary {
