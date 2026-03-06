@@ -53,6 +53,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const sizeControl = document.getElementById("size-control");
   const schemeControl = document.getElementById("scheme-control");
   const accentControl = document.getElementById("accent-control");
+  const customBgControl = document.getElementById("custom-bg-control");
+  const customTextControl = document.getElementById("custom-text-control");
   const compactToggle = document.getElementById("compact-toggle");
   const showModeToggleEl = document.getElementById("show-mode-toggle");
   const applyOnClickToggle = document.getElementById("apply-on-click-toggle");
@@ -87,6 +89,8 @@ document.addEventListener("DOMContentLoaded", function () {
     size: "medium",
     scheme: "blue",
     accent: "#5b8dd9",
+    customBg: "#f0ede8",
+    customText: "#1e2029",
     compact: false,
     showModeToggle: true,
     applyOnClick: true,
@@ -103,7 +107,6 @@ document.addEventListener("DOMContentLoaded", function () {
   let transferMode = null;
   let transferDestGroup = null;
   let pendingTheme = null;
-  let surpriseActive = false; // transient: true while dark mode or surprise theme is active
 
   // ── Init ──────────────────────────────────────────────────────────
   loadSettings().then(() => {
@@ -123,6 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
   async function saveSettings() {
     await browser.storage.local.set({ popupSettings: settings });
     applySettings();
+    syncSettingsUI();
   }
 
   function applySettings() {
@@ -131,19 +135,31 @@ document.addEventListener("DOMContentLoaded", function () {
     body.classList.add(`size-${settings.size}`);
     body.classList.toggle("compact", settings.compact);
     body.classList.remove("scheme-blue", "scheme-dark", "scheme-light");
-    // If a surprise theme is active, always show dark popup regardless of saved scheme
-    body.classList.add(surpriseActive ? "scheme-dark" : `scheme-${settings.scheme}`);
-    // Only apply accent var when on blue scheme
-    if (settings.scheme === "blue" && !surpriseActive) {
-      document.documentElement.style.setProperty("--accent", settings.accent);
-      document.documentElement.style.setProperty(
-        "--accent-dark",
-        darkenHex(settings.accent, 22),
-      );
+    body.classList.add(`scheme-${settings.scheme}`);
+    body.dataset.scheme = settings.scheme;
+    // Always apply the user's chosen accent color on top of any scheme
+    document.documentElement.style.setProperty("--accent", settings.accent);
+    document.documentElement.style.setProperty(
+      "--accent-dark",
+      darkenHex(settings.accent, 22),
+    );
+    // Apply custom bg/text colors when on Custom scheme
+    if (settings.scheme === "blue") {
+      const bg = settings.customBg || DEFAULT_SETTINGS.customBg;
+      const text = settings.customText || DEFAULT_SETTINGS.customText;
+      document.documentElement.style.setProperty("--bg",       bg);
+      document.documentElement.style.setProperty("--bg2",      darkenHex(bg, 6));
+      document.documentElement.style.setProperty("--surface",  lightenHex(bg, 5));
+      document.documentElement.style.setProperty("--surface2", darkenHex(bg, 3));
+      document.documentElement.style.setProperty("--text",     text);
+      document.documentElement.style.setProperty("--text-sub", blendHex(text, bg, 0.55));
     } else {
-      // Reset accent to default so it doesn't bleed into dark/light
-      document.documentElement.style.removeProperty("--accent");
-      document.documentElement.style.removeProperty("--accent-dark");
+      document.documentElement.style.removeProperty("--bg");
+      document.documentElement.style.removeProperty("--bg2");
+      document.documentElement.style.removeProperty("--surface");
+      document.documentElement.style.removeProperty("--surface2");
+      document.documentElement.style.removeProperty("--text");
+      document.documentElement.style.removeProperty("--text-sub");
     }
     modeToggleRow.classList.toggle("hidden", !settings.showModeToggle);
   }
@@ -168,6 +184,13 @@ document.addEventListener("DOMContentLoaded", function () {
     showModeToggleEl.checked = settings.showModeToggle;
     applyOnClickToggle.checked = settings.applyOnClick;
     rememberGroupToggle.checked = settings.rememberGroup;
+    // Sync custom color swatch grids
+    customBgControl.querySelectorAll(".accent-swatch").forEach((b) =>
+      b.classList.toggle("active", b.dataset.color === settings.customBg),
+    );
+    customTextControl.querySelectorAll(".accent-swatch").forEach((b) =>
+      b.classList.toggle("active", b.dataset.color === settings.customText),
+    );
     // Default theme display
     defaultThemeDisplay.textContent = settings.defaultTheme
       ? settings.defaultTheme.name
@@ -226,6 +249,28 @@ document.addEventListener("DOMContentLoaded", function () {
         .forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
       settings.accent = btn.dataset.color;
+      saveSettings();
+    });
+  });
+
+  // Custom background swatches
+  customBgControl.querySelectorAll(".accent-swatch").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      customBgControl.querySelectorAll(".accent-swatch")
+        .forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      settings.customBg = btn.dataset.color;
+      saveSettings();
+    });
+  });
+
+  // Custom text swatches
+  customTextControl.querySelectorAll(".accent-swatch").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      customTextControl.querySelectorAll(".accent-swatch")
+        .forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      settings.customText = btn.dataset.color;
       saveSettings();
     });
   });
@@ -419,18 +464,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ── Theme buttons ─────────────────────────────────────────────────
   darkThemeBtn.addEventListener("click", () => {
-    surpriseActive = true;
-    applySettings();
+    settings.scheme = "dark";
+    saveSettings();
     applyTheme("dark", "Dark Mode");
   });
   lightThemeBtn.addEventListener("click", () => {
-    surpriseActive = false;
-    applySettings();
+    settings.scheme = "light";
+    saveSettings();
     applyTheme("light", "Light Mode");
   });
   randomThemeBtn.addEventListener("click", () => {
-    surpriseActive = true;
-    applySettings();
+    settings.scheme = "dark";
+    saveSettings();
     if (isGradientMode) {
       const c1 = generateRandomColor(),
         c2 = generateRandomColor();
@@ -539,8 +584,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ── Detail: Surprise Me ──────────────────────────────────────────
   detailSurpriseBtn.addEventListener("click", () => {
-    surpriseActive = true;
-    applySettings();
+    settings.scheme = "dark";
+    saveSettings();
     if (isGradientMode) {
       const c1 = generateRandomColor(),
         c2 = generateRandomColor();
@@ -975,7 +1020,6 @@ document.addEventListener("DOMContentLoaded", function () {
         currentCustomColor: customColor || null,
         currentGradientColor1: gradientColor1 || null,
         currentGradientColor2: gradientColor2 || null,
-        popupForceDark: themeId !== "light",
       })
       .then(() => {
         currentThemeDisplay.textContent = themeName;
@@ -991,10 +1035,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function loadCurrentTheme() {
-    browser.storage.local.get(["currentThemeName", "popupForceDark"]).then((r) => {
+    browser.storage.local.get("currentThemeName").then((r) => {
       currentThemeDisplay.textContent = r.currentThemeName || "Default";
-      surpriseActive = r.popupForceDark === true;
-      applySettings();
     });
   }
   function saveMode(mode) {
@@ -1126,5 +1168,21 @@ document.addEventListener("DOMContentLoaded", function () {
       g = Math.max(0, ((n >> 8) & 0xff) - amt),
       b = Math.max(0, (n & 0xff) - amt);
     return "#" + [r, g, b].map((x) => x.toString(16).padStart(2, "0")).join("");
+  }
+  function lightenHex(hex, amt) {
+    const n = parseInt(hex.replace("#", ""), 16);
+    const r = Math.min(255, (n >> 16) + amt),
+      g = Math.min(255, ((n >> 8) & 0xff) + amt),
+      b = Math.min(255, (n & 0xff) + amt);
+    return "#" + [r, g, b].map((x) => x.toString(16).padStart(2, "0")).join("");
+  }
+  // Blend two hex colors: t=0 returns a, t=1 returns b
+  function blendHex(a, b, t) {
+    const an = parseInt(a.replace("#", ""), 16);
+    const bn = parseInt(b.replace("#", ""), 16);
+    const r = Math.round((an >> 16) * (1 - t) + (bn >> 16) * t),
+      g = Math.round(((an >> 8) & 0xff) * (1 - t) + ((bn >> 8) & 0xff) * t),
+      bv = Math.round((an & 0xff) * (1 - t) + (bn & 0xff) * t);
+    return "#" + [r, g, bv].map((x) => x.toString(16).padStart(2, "0")).join("");
   }
 });
