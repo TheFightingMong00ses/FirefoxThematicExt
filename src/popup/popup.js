@@ -1013,6 +1013,12 @@ document.addEventListener("DOMContentLoaded", function () {
     gradientColor1,
     gradientColor2,
   ) {
+    // Derive accent from the theme's color data and update settings
+    const derived = accentFromTheme(customColor, gradientColor1, gradientColor2);
+    if (derived) {
+      settings.accent = derived;
+      saveSettings(); // persists and calls applySettings + syncSettingsUI
+    }
     browser.storage.local
       .set({
         currentTheme: themeId,
@@ -1035,8 +1041,23 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function loadCurrentTheme() {
-    browser.storage.local.get("currentThemeName").then((r) => {
+    browser.storage.local.get([
+      "currentThemeName",
+      "currentCustomColor",
+      "currentGradientColor1",
+      "currentGradientColor2",
+    ]).then((r) => {
       currentThemeDisplay.textContent = r.currentThemeName || "Default";
+      const derived = accentFromTheme(
+        r.currentCustomColor,
+        r.currentGradientColor1,
+        r.currentGradientColor2,
+      );
+      if (derived) {
+        settings.accent = derived;
+        applySettings();
+        syncSettingsUI();
+      }
     });
   }
   function saveMode(mode) {
@@ -1184,5 +1205,55 @@ document.addEventListener("DOMContentLoaded", function () {
       g = Math.round(((an >> 8) & 0xff) * (1 - t) + ((bn >> 8) & 0xff) * t),
       bv = Math.round((an & 0xff) * (1 - t) + (bn & 0xff) * t);
     return "#" + [r, g, bv].map((x) => x.toString(16).padStart(2, "0")).join("");
+  }
+  // Convert rgb(...) string or hex string to hex
+  function toHex(color) {
+    if (!color) return null;
+    if (color.startsWith("#")) return color;
+    const m = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+    if (!m) return null;
+    return "#" + [+m[1], +m[2], +m[3]]
+      .map((x) => x.toString(16).padStart(2, "0")).join("");
+  }
+  // Derive a vivid accent hex from theme color data.
+  // For gradients, blend the two colors. Then boost saturation so the
+  // accent is always punchy enough to read as a trim color.
+  function accentFromTheme(customColor, gradientColor1, gradientColor2) {
+    let hex = null;
+    if (gradientColor1 && gradientColor2) {
+      const h1 = toHex(gradientColor1), h2 = toHex(gradientColor2);
+      if (h1 && h2) hex = blendHex(h1, h2, 0.5);
+    } else if (customColor) {
+      hex = toHex(customColor);
+    }
+    if (!hex) return null;
+    // Parse to HSL, push saturation up and clamp lightness to a readable range
+    const n = parseInt(hex.replace("#", ""), 16);
+    let r = (n >> 16) / 255, g = ((n >> 8) & 0xff) / 255, bv = (n & 0xff) / 255;
+    const max = Math.max(r, g, bv), min = Math.min(r, g, bv), d = max - min;
+    let h = 0, s = 0, l = (max + min) / 2;
+    if (d > 0) {
+      s = d / (1 - Math.abs(2 * l - 1));
+      if (max === r) h = ((g - bv) / d + 6) % 6;
+      else if (max === g) h = (bv - r) / d + 2;
+      else h = (r - g) / d + 4;
+      h *= 60;
+    }
+    // Boost saturation, clamp lightness so it's always visible as a trim
+    s = Math.min(1, s + 0.35);
+    l = Math.max(0.45, Math.min(0.70, l));
+    // HSL back to hex
+    const c = (1 - Math.abs(2 * l - 1)) * s;
+    const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+    const m2 = l - c / 2;
+    let r2, g2, b2;
+    if      (h < 60)  { r2 = c; g2 = x; b2 = 0; }
+    else if (h < 120) { r2 = x; g2 = c; b2 = 0; }
+    else if (h < 180) { r2 = 0; g2 = c; b2 = x; }
+    else if (h < 240) { r2 = 0; g2 = x; b2 = c; }
+    else if (h < 300) { r2 = x; g2 = 0; b2 = c; }
+    else              { r2 = c; g2 = 0; b2 = x; }
+    return "#" + [r2 + m2, g2 + m2, b2 + m2]
+      .map((x) => Math.round(x * 255).toString(16).padStart(2, "0")).join("");
   }
 });
