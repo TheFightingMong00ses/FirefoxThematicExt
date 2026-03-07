@@ -1028,7 +1028,7 @@ document.addEventListener("DOMContentLoaded", function () {
         currentGradientColor2: gradientColor2 || null,
       })
       .then(() => {
-        currentThemeDisplay.textContent = themeName;
+        setThemeDisplay(themeName);
         browser.runtime.sendMessage({
           action: "changeTheme",
           theme: themeId,
@@ -1047,7 +1047,7 @@ document.addEventListener("DOMContentLoaded", function () {
       "currentGradientColor1",
       "currentGradientColor2",
     ]).then((r) => {
-      currentThemeDisplay.textContent = r.currentThemeName || "Default";
+      setThemeDisplay(r.currentThemeName || "Default");
       const derived = accentFromTheme(
         r.currentCustomColor,
         r.currentGradientColor1,
@@ -1149,6 +1149,13 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ── Color helpers ─────────────────────────────────────────────────
+  function setThemeDisplay(name) {
+    currentThemeDisplay.textContent = name;
+    const len = name.length;
+    const bucket = len <= 14 ? "" : len <= 20 ? "md" : len <= 28 ? "lg" : "xl";
+    currentThemeDisplay.dataset.len = bucket;
+  }
+
   function generateRandomColor() {
     return `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`;
   }
