@@ -8,9 +8,66 @@
   <body>
     <div id="popup-content">
       <header>
-        <h1>Theme Manager</h1>
+        <div class="header-logo" aria-hidden="true">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 22 22"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="11"
+              cy="11"
+              r="10.25"
+              stroke="currentColor"
+              stroke-width="1.5"
+            />
+            <path
+              d="M5 11 Q8 6 11 11 Q14 16 17 11"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              fill="none"
+            />
+            <line
+              x1="11"
+              y1="1"
+              x2="11"
+              y2="21"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
+            <line
+              x1="1"
+              y1="11"
+              x2="21"
+              y2="11"
+              stroke="currentColor"
+              stroke-width="1"
+              stroke-linecap="round"
+              stroke-dasharray="2 2"
+            />
+          </svg>
+        </div>
+        <h1>Theme <span>Manager</span></h1>
         <button class="gear-btn" id="settings-btn" title="Settings">
-          &#9881;
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="3" />
+            <path
+              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
+            />
+          </svg>
         </button>
       </header>
 
@@ -34,10 +91,12 @@
       </div>
 
       <div class="button-container">
-        <button class="button" id="dark-theme">Dark Mode</button>
-        <button class="button" id="light-theme">Light Mode</button>
-        <button class="button" id="random-theme">Surprise Me</button>
-        <button class="button" id="edit-groups-btn">
+        <button class="button btn-primary" id="dark-theme">Dark Mode</button>
+        <button class="button btn-primary" id="light-theme">Light Mode</button>
+        <button class="button btn-surprise" id="random-theme">
+          Surprise Me
+        </button>
+        <button class="button btn-secondary" id="edit-groups-btn">
           Edit Groups
           <span id="group-count-badge" class="count-badge hidden"></span>
         </button>
@@ -107,7 +166,7 @@
           <div class="scheme-picker" id="scheme-control">
             <button class="scheme-btn active" data-value="blue">
               <span class="scheme-preview blue-scheme">Aa</span>
-              <span class="scheme-label">Blue</span>
+              <span class="scheme-label">Custom</span>
             </button>
             <button class="scheme-btn" data-value="dark">
               <span class="scheme-preview dark-scheme">Aa</span>
@@ -127,9 +186,9 @@
             <!-- Row 1: Blues & Purples -->
             <button
               class="accent-swatch active"
-              data-color="#4a90e2"
-              style="background: #4a90e2"
-              title="Sky Blue"
+              data-color="#5b8dd9"
+              style="background: #5b8dd9"
+              title="Periwinkle Blue"
             ></button>
             <button
               class="accent-swatch"
@@ -238,7 +297,240 @@
           </div>
         </div>
 
-        <!-- Compact Mode -->
+        <!-- Custom Colors — only visible on Custom scheme -->
+        <div class="settings-section" id="custom-colors-section">
+          <h3 class="settings-section-title">Background Color</h3>
+          <div class="accent-grid" id="custom-bg-control">
+            <!-- Row 1: Light & warm neutrals -->
+            <button
+              class="accent-swatch active"
+              data-color="#f0ede8"
+              style="background: #f0ede8"
+              title="Warm Cream"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#fafaf8"
+              style="background: #fafaf8"
+              title="Snow White"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#e8e5df"
+              style="background: #e8e5df"
+              title="Linen"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#ddd8ce"
+              style="background: #ddd8ce"
+              title="Khaki"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#e8e0d4"
+              style="background: #e8e0d4"
+              title="Sand"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#f0e6d3"
+              style="background: #f0e6d3"
+              title="Parchment"
+            ></button>
+            <!-- Row 2: Cool & mid neutrals -->
+            <button
+              class="accent-swatch"
+              data-color="#e4e8ed"
+              style="background: #e4e8ed"
+              title="Mist"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#d8dde4"
+              style="background: #d8dde4"
+              title="Slate Gray"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#2c2c34"
+              style="background: #2c2c34"
+              title="Charcoal"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#1e1e26"
+              style="background: #1e1e26"
+              title="Graphite"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#141720"
+              style="background: #141720"
+              title="Deep Navy"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#0d0d12"
+              style="background: #0d0d12"
+              title="Near Black"
+            ></button>
+            <!-- Row 3: Tinted darks & mids -->
+            <button
+              class="accent-swatch"
+              data-color="#1a1f2e"
+              style="background: #1a1f2e"
+              title="Midnight Blue"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#1c2130"
+              style="background: #1c2130"
+              title="Dark Slate"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#1e2a1e"
+              style="background: #1e2a1e"
+              title="Dark Forest"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#2a1f1f"
+              style="background: #2a1f1f"
+              title="Dark Mahogany"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#1f1a2e"
+              style="background: #1f1a2e"
+              title="Dark Plum"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#1a2428"
+              style="background: #1a2428"
+              title="Dark Teal"
+            ></button>
+          </div>
+        </div>
+
+        <div class="settings-section" id="custom-text-section">
+          <h3 class="settings-section-title">Text Color</h3>
+          <div class="accent-grid" id="custom-text-control">
+            <!-- Row 1: Dark foregrounds -->
+            <button
+              class="accent-swatch active"
+              data-color="#1e2029"
+              style="background: #1e2029"
+              title="Near Black"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#2c2c34"
+              style="background: #2c2c34"
+              title="Charcoal"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#3a3a4a"
+              style="background: #3a3a4a"
+              title="Dark Gray"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#4a4a58"
+              style="background: #4a4a58"
+              title="Slate"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#1a2030"
+              style="background: #1a2030"
+              title="Dark Navy"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#1e2818"
+              style="background: #1e2818"
+              title="Dark Moss"
+            ></button>
+            <!-- Row 2: Light foregrounds -->
+            <button
+              class="accent-swatch"
+              data-color="#dde2f0"
+              style="background: #dde2f0"
+              title="Cool White"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#f0ede8"
+              style="background: #f0ede8"
+              title="Warm White"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#ffffff"
+              style="background: #ffffff; border: 1px solid #ccc"
+              title="Pure White"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#c8d0e0"
+              style="background: #c8d0e0"
+              title="Light Slate"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#e0d8cc"
+              style="background: #e0d8cc"
+              title="Warm Gray"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#d4e8d4"
+              style="background: #d4e8d4"
+              title="Pale Green"
+            ></button>
+            <!-- Row 3: Tinted mids -->
+            <button
+              class="accent-swatch"
+              data-color="#8894b8"
+              style="background: #8894b8"
+              title="Blue Gray"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#9e9890"
+              style="background: #9e9890"
+              title="Warm Gray Mid"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#7a9e7a"
+              style="background: #7a9e7a"
+              title="Sage"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#9e8a78"
+              style="background: #9e8a78"
+              title="Tan"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#8888aa"
+              style="background: #8888aa"
+              title="Lavender Gray"
+            ></button>
+            <button
+              class="accent-swatch"
+              data-color="#7a9aaa"
+              style="background: #7a9aaa"
+              title="Steel Blue"
+            ></button>
+          </div>
+        </div>
         <div class="settings-section">
           <div class="settings-row">
             <div class="settings-row-info">
