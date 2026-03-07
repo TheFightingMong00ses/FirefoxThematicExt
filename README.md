@@ -74,6 +74,7 @@ The extension follows the standard WebExtensions two-process model:
 **`group_class.js`** — defines the `Group` class. Each instance holds a `name` and a `groupList` array of theme name strings. Provides instance methods for adding, removing, cycling (next / previous / random), and clearing themes. Loaded first so `Group` is globally available to the next script.
 
 **`mongoose.js`** — the background script that:
+
 - Loads persisted groups from `browser.storage.local` into an in-memory `groups` array on extension startup
 - Applies the user's designated default theme on `browser.runtime.onStartup`
 - Listens for messages from the popup and dispatches group CRUD operations (`createGroup`, `getGroups`, `renameGroup`, `deleteGroup`, `addThemeToGroup`, `removeThemeFromGroup`, `moveTheme`, `reorderTheme`) and theme application (`changeTheme`)
@@ -84,6 +85,7 @@ The extension follows the standard WebExtensions two-process model:
 **`popup.html`** — the extension popup markup. Contains the main view (mode toggle, theme status pill, action buttons), the Settings panel, and the Groups panel (menu → group detail → theme picker / transfer views).
 
 **`popup.js`** — all popup logic in a single DOMContentLoaded closure. Responsibilities:
+
 - Loading and saving settings (`browser.storage.local`)
 - Applying UI scheme classes to `document.body` (`scheme-blue`, `scheme-dark`, `scheme-light`, size and compact variants)
 - Managing the `surpriseActive` transient flag that forces the popup into dark mode when Dark Mode or Surprise Me is active, and restores the saved scheme when Light Mode is selected
@@ -92,6 +94,7 @@ The extension follows the standard WebExtensions two-process model:
 - Default theme selection sub-views
 
 **`popup.css`** — GX-inspired visual design. Key characteristics:
+
 - Sharp geometry (`--radius: 2px`) echoing Opera GX's aesthetic
 - Left-side accent bars on structural elements using `::before` pseudo-elements with a blue-to-gold gradient derived from the extension icon's color palette
 - CSS custom properties for full theming (`--accent`, `--bg`, `--surface`, `--border`, `--text`, etc.) with `@media (prefers-color-scheme: dark)` auto-switching and explicit `scheme-*` body class overrides
@@ -157,17 +160,17 @@ The extension follows the standard WebExtensions two-process model:
 
 All data lives under `browser.storage.local`. Keys used by the extension:
 
-| Key | Type | Description |
-|-----|------|-------------|
-| `popupSettings` | Object | User preferences (see below) |
-| `groups` | Array | Serialized group objects |
-| `currentTheme` | String | Theme ID of the last applied theme |
-| `currentThemeName` | String | Display name of the last applied theme |
-| `currentCustomColor` | String \| null | Hex color for the last custom solid theme |
-| `currentGradientColor1` | String \| null | First gradient color |
-| `currentGradientColor2` | String \| null | Second gradient color |
-| `colorMode` | String | `"solid"` or `"gradient"` |
-| `popupForceDark` | Boolean | Whether the popup should open in dark mode (true unless last applied theme was Light Mode) |
+| Key                     | Type           | Description                                                                                |
+| ----------------------- | -------------- | ------------------------------------------------------------------------------------------ |
+| `popupSettings`         | Object         | User preferences (see below)                                                               |
+| `groups`                | Array          | Serialized group objects                                                                   |
+| `currentTheme`          | String         | Theme ID of the last applied theme                                                         |
+| `currentThemeName`      | String         | Display name of the last applied theme                                                     |
+| `currentCustomColor`    | String \| null | Hex color for the last custom solid theme                                                  |
+| `currentGradientColor1` | String \| null | First gradient color                                                                       |
+| `currentGradientColor2` | String \| null | Second gradient color                                                                      |
+| `colorMode`             | String         | `"solid"` or `"gradient"`                                                                  |
+| `popupForceDark`        | Boolean        | Whether the popup should open in dark mode (true unless last applied theme was Light Mode) |
 
 ### `popupSettings` object
 
@@ -191,10 +194,10 @@ All data lives under `browser.storage.local`. Keys used by the extension:
 
 Declared in `manifest.json`:
 
-| Permission | Why it's needed |
-|-----------|-----------------|
-| `storage` | Persist groups, settings, and current theme state |
-| `theme` | Apply custom color/gradient themes via `browser.theme.update()` |
+| Permission   | Why it's needed                                                       |
+| ------------ | --------------------------------------------------------------------- |
+| `storage`    | Persist groups, settings, and current theme state                     |
+| `theme`      | Apply custom color/gradient themes via `browser.theme.update()`       |
 | `management` | Enable installed Firefox themes via `browser.management.setEnabled()` |
 
 ---
@@ -239,16 +242,16 @@ This runs ESLint, Prettier format check, and `web-ext lint` in sequence.
 
 ## Development Scripts
 
-| Script | Command | What it does |
-|--------|---------|--------------|
-| Run extension | `npm run ext:run` | Launch Firefox with extension via web-ext |
-| Lint | `npm run lint` | ESLint across all JS/MJS files |
-| Lint + fix | `npm run lint:fix` | ESLint with auto-fix |
-| Format | `npm run format` | Prettier write (auto-formats) |
-| Format check | `npm run format:check` | Prettier read-only check (used in CI) |
-| Extension lint | `npm run ext:lint` | web-ext lint (manifest + structure validation) |
-| All checks | `npm run check` | lint + format:check + ext:lint |
-| Tests | `npm test` | Mocha unit tests |
+| Script         | Command                | What it does                                   |
+| -------------- | ---------------------- | ---------------------------------------------- |
+| Run extension  | `npm run ext:run`      | Launch Firefox with extension via web-ext      |
+| Lint           | `npm run lint`         | ESLint across all JS/MJS files                 |
+| Lint + fix     | `npm run lint:fix`     | ESLint with auto-fix                           |
+| Format         | `npm run format`       | Prettier write (auto-formats)                  |
+| Format check   | `npm run format:check` | Prettier read-only check (used in CI)          |
+| Extension lint | `npm run ext:lint`     | web-ext lint (manifest + structure validation) |
+| All checks     | `npm run check`        | lint + format:check + ext:lint                 |
+| Tests          | `npm test`             | Mocha unit tests                               |
 
 ---
 
@@ -274,12 +277,12 @@ Pull requests require at least one teammate review. Merge via **Squash and merge
 
 ### Branch naming conventions
 
-| Type | Pattern | Example |
-|------|---------|---------|
-| Feature | `feature/short-description` | `feature/group-reorder` |
-| Bug fix | `fix/short-description` | `fix/popup-gap` |
-| Cosmetic / UI | `cosmetic-description` | `cosmetic-popup-redesign` |
-| Hotfix | `hotfix/short-description` | `hotfix/storage-crash` |
+| Type          | Pattern                     | Example                   |
+| ------------- | --------------------------- | ------------------------- |
+| Feature       | `feature/short-description` | `feature/group-reorder`   |
+| Bug fix       | `fix/short-description`     | `fix/popup-gap`           |
+| Cosmetic / UI | `cosmetic-description`      | `cosmetic-popup-redesign` |
+| Hotfix        | `hotfix/short-description`  | `hotfix/storage-crash`    |
 
 ---
 
@@ -299,11 +302,11 @@ Coverage is collected via `c8`. The test setup in `test/setup.js` configures the
 
 The popup supports three explicit color schemes selectable in Settings, plus automatic dark/light switching:
 
-| Scheme | Body class | Behavior |
-|--------|-----------|----------|
-| Blue (default) | `scheme-blue` | Accent colors from icon palette; follows `prefers-color-scheme` for surfaces |
-| Dark | `scheme-dark` | Forces full dark palette regardless of system preference |
-| Light | `scheme-light` | Forces full light palette regardless of system preference |
+| Scheme         | Body class     | Behavior                                                                     |
+| -------------- | -------------- | ---------------------------------------------------------------------------- |
+| Blue (default) | `scheme-blue`  | Accent colors from icon palette; follows `prefers-color-scheme` for surfaces |
+| Dark           | `scheme-dark`  | Forces full dark palette regardless of system preference                     |
+| Light          | `scheme-light` | Forces full light palette regardless of system preference                    |
 
 The popup also has a transient dark-mode override (`surpriseActive` flag in `popup.js`) that applies `scheme-dark` visually whenever the user applies a Dark Mode or Surprise Me theme, without permanently changing the saved scheme. This state is persisted as `popupForceDark` in storage so it survives the popup being closed and reopened. It resets to `false` when the user applies Light Mode.
 
@@ -322,14 +325,14 @@ Three popup sizes are available (small / medium / large) and a compact mode for 
 
 ## Documentation
 
-| Document | Location | Description |
-|----------|----------|-------------|
-| System Design | [`Documentation/SYSTEM_DESIGN.md`](Documentation/SYSTEM_DESIGN.md) | Full architecture, data models, and design decisions |
-| Git Workflow | [`Documentation/GIT_WORKFLOW.md`](Documentation/GIT_WORKFLOW.md) | Branching strategy, PR process, conflict resolution |
-| CI/CD Pipeline | [`Documentation/CI-CD-PIPELINE-GUIDE.md`](Documentation/CI-CD-PIPELINE-GUIDE.md) | GitHub Actions setup and pipeline guide |
-| ESLint Guide | [`Documentation/FIXING-ESLINT-ERRORS.md`](Documentation/FIXING-ESLINT-ERRORS.md) | Common lint errors and how to resolve them |
-| Project Plan | [`Documentation/ProjectPlan.txt`](Documentation/ProjectPlan.txt) | Original project scope and milestone plan |
+| Document       | Location                                                                         | Description                                          |
+| -------------- | -------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| System Design  | [`Documentation/SYSTEM_DESIGN.md`](Documentation/SYSTEM_DESIGN.md)               | Full architecture, data models, and design decisions |
+| Git Workflow   | [`Documentation/GIT_WORKFLOW.md`](Documentation/GIT_WORKFLOW.md)                 | Branching strategy, PR process, conflict resolution  |
+| CI/CD Pipeline | [`Documentation/CI-CD-PIPELINE-GUIDE.md`](Documentation/CI-CD-PIPELINE-GUIDE.md) | GitHub Actions setup and pipeline guide              |
+| ESLint Guide   | [`Documentation/FIXING-ESLINT-ERRORS.md`](Documentation/FIXING-ESLINT-ERRORS.md) | Common lint errors and how to resolve them           |
+| Project Plan   | [`Documentation/ProjectPlan.txt`](Documentation/ProjectPlan.txt)                 | Original project scope and milestone plan            |
 
 ---
 
-*The Fighting Mong00ses · Spring 2026*
+_The Fighting Mong00ses · Spring 2026_
