@@ -173,7 +173,7 @@ browser.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
         });
       return true;
     } else if (themeId === "random") {
-            // Apply solid random color theme
+      // Apply solid random color theme
       const color = request.customColor;
       browser.theme
         .update({
@@ -200,7 +200,7 @@ browser.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
         });
       return true;
     } else if (themeId === "random-gradient") {
-        // Apply custom gradient theme
+      // Apply custom gradient theme
       const color1 = request.gradientColor1;
       const color2 = request.gradientColor2;
 
@@ -215,7 +215,7 @@ browser.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
                   theme_frame: gradientUrl,
                 },
                 colors: {
-                  frame: color1,        // WHITE BAR FIX: fills uncovered left area with left gradient color
+                  frame: color1, // WHITE BAR FIX: fills uncovered left area with left gradient color
                   tab_background_text: "#ffffff",
                   toolbar: "transparent",
                   toolbar_text: "#ffffff",
@@ -271,7 +271,7 @@ browser.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
         });
       return true;
     } else if (themeId === "purple") {
-            // Update custom theme to purple colors first, then switch to managed purple theme
+      // Update custom theme to purple colors first, then switch to managed purple theme
       browser.theme
         .update({
           colors: {
@@ -299,7 +299,7 @@ browser.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
         });
       return true;
     } else {
-            // Random theme: pick one and apply directly (no recursive listener)
+      // Random theme: pick one and apply directly (no recursive listener)
       const themes = ["dark", "light", "blue", "purple"];
       const randomTheme = themes[Math.floor(Math.random() * themes.length)];
       console.log("Random theme selected:", randomTheme);
