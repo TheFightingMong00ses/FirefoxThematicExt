@@ -5,14 +5,17 @@
   "description": "Manage and switch Firefox themes easily",
 
   "icons": {
-    "48": "icons/icon-redux.png"
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "96": "icons/icon-96.png"
   },
 
   "permissions": ["storage", "management", "theme"],
 
   "browser_action": {
     "default_popup": "src/popup/popup.html",
-    "default_icon": "icons/icon-redux.png"
+    "default_icon": "icons/icon-48.png"
   },
 
   "background": {
