@@ -90,22 +90,39 @@ browser.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
 
   if (request.action === "deleteGroup") {
     const groupToRemove = request.deleteGroup;
-    const index = groups.findIndex((group) => group.name === groupToRemove);
-    if (index > -1) {
-      groups.splice(index, 1);
-      console.log(groupToRemove, " was deleted");
-      const result = await browser.storage.local.get("groups");
-      const stored = result.groups || [];
-      const storedIndex = stored.findIndex((g) => g.name === groupToRemove);
-      if (storedIndex > -1) stored.splice(storedIndex, 1);
-      await browser.storage.local.set({ groups: stored });
-      sendResponse({ success: true });
+    browser.storage.local
+      .get("groups")
+      .then((result) => {
+        const stored = result.groups || [];
+        const storedIndex = stored.findIndex((g) => g.name === groupToRemove);
+        if (storedIndex > -1){
+          stored.splice(storedIndex,1);
+          return browser.storage.local.set({groups: stored});
+        } else {
+          throw new Error("Group not found")
+        }
+      })
+      .then(() => {
+        const memIndex = groups.findIndex((g) => g.name === groupToRemove);
+        if (memIndex > -1) groups.splice(memIndex,1);
+        sendResponse({success:true});
+      })
+      .catch((error) =>  {
+        sendResponse({success:false, error: "Group not found"});
+      });
+      return true;
+    }
+  if (request.action === "addThemeToGroup") {
+    const group = groups.find((g) => g.name === request.groupName);
+    if(group){
+      await group.addTheme(request.groupName);
+      sendResponse({success: true});
     } else {
-      console.log("Entered name was not found");
-      sendResponse({ success: false, error: "Group not found" });
+      sendResponse({success: false, error: "Group not found"});
     }
     return true;
   }
+
   if (request.action === "changeTheme") {
     const themeId = request.theme;
     console.log("Attempting to change theme to:", themeId);

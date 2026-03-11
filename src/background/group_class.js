@@ -18,6 +18,13 @@ class Group {
     const currentTheme = await this.currentTheme();
     this.groupList.push(currentTheme);
     console.log("Theme added:", currentTheme);
+    const result = await browser.storage.local.get("groups");
+    const stored = result.groups || [];
+    const index = stored.findIndex((g) => g.name === groupName);
+    if (index > -1){
+      stored[index].groupList = this.groupList;
+      await browser.storage.local.set({groups: stored});
+    }
   }
 
   // Removes the current theme from this group

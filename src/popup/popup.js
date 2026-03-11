@@ -626,6 +626,10 @@ document.addEventListener("DOMContentLoaded", function () {
       "currentGradientColor1",
       "currentGradientColor2",
     ]);
+    browser.runtime.sendMessage({
+      action: "addThemeToGroup",
+      groupName: selectedGroup
+    });
     const currentThemeName = result.currentThemeName || "Default";
     const groups = await getGroupsFromStorage();
     const targetGroup = groups.find((g) => g.name === selectedGroupName);
