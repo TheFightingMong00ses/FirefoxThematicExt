@@ -3,11 +3,9 @@
   "name": "Firefox Theme Manager",
   "version": "0.0.1",
   "description": "Manage and switch Firefox themes easily",
-
   "icons": {
     "48": "icons/icon-redux.png"
   },
-
   "permissions": ["storage", "management", "theme"],
 
   "browser_action": {
