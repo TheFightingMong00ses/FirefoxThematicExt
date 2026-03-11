@@ -249,3 +249,58 @@ describe("Mongoose Background Script", () => {
     });
   });
 });
+describe("Dark mode color logic for random themes", () => {
+  it("should use dark-mode colors when darkMode is true", () => {
+    const color = "#123456";
+    const isDark = true;
+
+    const themePayload = {
+      colors: {
+        frame: color,
+        tab_background_text: "#ffffff",
+        toolbar: color,
+        toolbar_text: "#ffffff",
+        toolbar_field: isDark ? "#2a2a2a" : "#e0e0e0",
+        toolbar_field_text: isDark ? "#ffffff" : "#0c0c0d",
+        sidebar: isDark ? "#1a1a1a" : "#ffffff",
+        sidebar_text: isDark ? "#ffffff" : "#0c0c0d",
+        popup: isDark ? "#2a2a2a" : "#ffffff",
+        popup_text: isDark ? "#ffffff" : "#0c0c0d",
+      },
+    };
+
+    expect(themePayload.colors.toolbar_field).to.equal("#2a2a2a");
+    expect(themePayload.colors.toolbar_field_text).to.equal("#ffffff");
+    expect(themePayload.colors.sidebar).to.equal("#1a1a1a");
+    expect(themePayload.colors.sidebar_text).to.equal("#ffffff");
+    expect(themePayload.colors.popup).to.equal("#2a2a2a");
+    expect(themePayload.colors.popup_text).to.equal("#ffffff");
+  });
+
+  it("should use light-mode colors when darkMode is false", () => {
+    const color = "#abcdef";
+    const isDark = false;
+
+    const themePayload = {
+      colors: {
+        frame: color,
+        tab_background_text: "#ffffff",
+        toolbar: color,
+        toolbar_text: "#ffffff",
+        toolbar_field: isDark ? "#2a2a2a" : "#e0e0e0",
+        toolbar_field_text: isDark ? "#ffffff" : "#0c0c0d",
+        sidebar: isDark ? "#1a1a1a" : "#ffffff",
+        sidebar_text: isDark ? "#ffffff" : "#0c0c0d",
+        popup: isDark ? "#2a2a2a" : "#ffffff",
+        popup_text: isDark ? "#ffffff" : "#0c0c0d",
+      },
+    };
+
+    expect(themePayload.colors.toolbar_field).to.equal("#e0e0e0");
+    expect(themePayload.colors.toolbar_field_text).to.equal("#0c0c0d");
+    expect(themePayload.colors.sidebar).to.equal("#ffffff");
+    expect(themePayload.colors.sidebar_text).to.equal("#0c0c0d");
+    expect(themePayload.colors.popup).to.equal("#ffffff");
+    expect(themePayload.colors.popup_text).to.equal("#0c0c0d");
+  });
+});

@@ -22,7 +22,6 @@ async function loadGroupsFromStorage() {
     console.error("Error loading groups from storage:", error);
   }
 }
-
 // Load groups on startup
 loadGroupsFromStorage();
 
@@ -90,6 +89,7 @@ browser.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
 
   if (request.action === "deleteGroup") {
     const groupToRemove = request.deleteGroup;
+
     const index = groups.findIndex((group) => group.name === groupToRemove);
     if (index > -1) {
       groups.splice(index, 1);
@@ -131,6 +131,7 @@ browser.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
         )
         .then(() => {
           console.log("Successfully enabled dark theme");
+          browser.storage.local.set({ darkMode: true });
           sendResponse({
             success: true,
             themeId: "firefox-compact-dark@mozilla.org",
@@ -162,6 +163,7 @@ browser.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
         )
         .then(() => {
           console.log("Successfully enabled light theme");
+          browser.storage.local.set({ darkMode: false });
           sendResponse({
             success: true,
             themeId: "firefox-compact-light@mozilla.org",
@@ -175,42 +177,61 @@ browser.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
     } else if (themeId === "random") {
       // Apply solid random color theme
       const color = request.customColor;
-      browser.theme
-        .update({
-          colors: {
-            frame: color,
-            tab_background_text: "#ffffff",
-            toolbar: color,
-            toolbar_text: "#ffffff",
-            toolbar_field: "#e0e0e0",
-            toolbar_field_text: "#0c0c0d",
-            sidebar: "#ffffff",
-            sidebar_text: "#0c0c0d",
-            popup: "#ffffff",
-            popup_text: "#0c0c0d",
-          },
-        })
-        .then(() => {
-          console.log("Successfully applied random color theme:", color);
-          sendResponse({ success: true, themeId: "random-color" });
-        })
-        .catch((error) => {
-          console.error("Error applying random color theme:", error);
-          sendResponse({ success: false, error: error.message });
-        });
+      browser.storage.local.get("darkMode").then((result) => {
+        // Check if dark mode was previously enabled to adjust text colors for contrast
+        const isDark = result.darkMode === true;
+
+        const applyColor = () =>
+          browser.theme.update({
+            colors: {
+              frame: color,
+              tab_background_text: "#ffffff",
+              toolbar: color,
+              toolbar_text: "#ffffff",
+              toolbar_field: isDark ? "#2a2a2a" : "#e0e0e0",
+              toolbar_field_text: isDark ? "#ffffff" : "#0c0c0d",
+              sidebar: isDark ? "#1a1a1a" : "#ffffff",
+              sidebar_text: isDark ? "#ffffff" : "#0c0c0d",
+              popup: isDark ? "#2a2a2a" : "#ffffff",
+              popup_text: isDark ? "#ffffff" : "#0c0c0d",
+            },
+          });
+        if (isDark) {
+          browser.management
+            .setEnabled("firefox-compact-dark@mozilla.org", true)
+            .then(() => applyColor())
+            .then(() =>
+              sendResponse({ success: true, themeId: "random-dark-color" }),
+            )
+            .catch((error) =>
+              sendResponse({ success: false, error: error.message }),
+            );
+        } else {
+          applyColor()
+            .then(() =>
+              sendResponse({ success: true, themeId: "random-color" }),
+            )
+            .catch((error) =>
+              sendResponse({ success: false, error: error.message }),
+            );
+        }
+      });
       return true;
     } else if (themeId === "random-gradient") {
       // Apply custom gradient theme
       const color1 = request.gradientColor1;
       const color2 = request.gradientColor2;
 
-      browser.windows.getCurrent().then((window) => {
-        const screenWidth = window.width || 1920;
+      browser.storage.local.get("darkMode").then((result) => {
+        // Check if dark mode was previously enabled to adjust text colors for contrast
+        const isDark = result.darkMode === true;
 
-        createCombinedGradientImage(color1, color2, screenWidth).then(
-          (gradientUrl) => {
-            browser.theme
-              .update({
+        browser.windows.getCurrent().then((window) => {
+          const screenWidth = window.width || 1920;
+
+          createCombinedGradientImage(color1, color2, screenWidth)
+            .then((gradientUrl) => {
+              browser.theme.update({
                 images: {
                   theme_frame: gradientUrl,
                 },
@@ -219,30 +240,30 @@ browser.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
                   tab_background_text: "#ffffff",
                   toolbar: "transparent",
                   toolbar_text: "#ffffff",
-                  toolbar_field: "#e0e0e0",
-                  toolbar_field_text: "#0c0c0d",
-                  sidebar: "#ffffff",
-                  sidebar_text: "#0c0c0d",
-                  popup: "#ffffff",
-                  popup_text: "#0c0c0d",
-                  bookmark_text: "#ffffff",
+                  toolbar_field: isDark ? "#2a2a2a" : "#e0e0e0",
+                  toolbar_field_text: isDark ? "#ffffff" : "#0c0c0d",
+                  sidebar: isDark ? "#1a1a1a" : "#ffffff",
+                  sidebar_text: isDark ? "#ffffff" : "#0c0c0d",
+                  popup: isDark ? "#2a2a2a" : "#ffffff",
+                  popup_text: isDark ? "#ffffff" : "#0c0c0d",
+                  bookmark_text: isDark ? "#ffffff" : "#0c0c0d",
                 },
-              })
-              .then(() => {
-                console.log(
-                  "Successfully applied gradient theme:",
-                  color1,
-                  "to",
-                  color2,
-                );
-                sendResponse({ success: true, themeId: "random-gradient" });
-              })
-              .catch((error) => {
-                console.error("Error applying gradient theme:", error);
-                sendResponse({ success: false, error: error.message });
               });
-          },
-        );
+            })
+            .then(() => {
+              console.log(
+                "Successfully applied gradient theme:",
+                color1,
+                "to",
+                color2,
+              );
+              sendResponse({ success: true, themeId: "random-gradient" });
+            })
+            .catch((error) => {
+              console.error("Error applying gradient theme:", error);
+              sendResponse({ success: false, error: error.message });
+            });
+        });
       });
       return true;
     } else if (themeId === "blue") {
