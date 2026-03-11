@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Firefox Theme Manager",
   "version": "0.0.1",
   "description": "Manage and switch Firefox themes easily",
@@ -13,7 +13,7 @@
 
   "permissions": ["storage", "management", "theme"],
 
-  "browser_action": {
+  "action": {
     "default_popup": "src/popup/popup.html",
     "default_icon": "icons/icon-48.png"
   },
